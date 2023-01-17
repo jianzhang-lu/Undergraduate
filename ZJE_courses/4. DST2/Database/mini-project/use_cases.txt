@@ -1,0 +1,84 @@
+use my_database;
+
+-- Case 1
+/*
+    @name get_non_interactive_gene
+    Tips: This is the first method to connect different tables.
+    First, use left outer join to connect gene table to gene_interaction table on the foreign key: gene_id.
+    For convenience, use 'gi' to replace gene_interaction table. After connection, if one gene does
+    not have interactive genes in gi table, the attribute gi.gene_id should be NULL in the connected table.
+    Then, use SELECT & WHERE to get the information.
+*/
+SELECT gene_name, Ensembl_gene_id
+FROM gene LEFT JOIN gene_interaction gi on gene.gene_id = gi.gene_id
+WHERE gi.gene_id IS NULL;
+
+-- Case 2
+/*
+    @name select_top10_expression_gene
+    Tips: This is the second method to connect different tables
+    First, use WHERE command to connect gene and chromosome tables via the foreign key in chromosome: chrom_id.
+    Then select expr_quantity attribute from gene table and sort the connected table by this attribute from
+    the biggest to lowest. Last, use LIMIT command to select 10 genes with the highest expression level.
+*/
+SELECT gene_name, Ensembl_gene_id, chromosome, expr_quantity
+FROM gene, chromosome
+WHERE gene.chrom_id = chromosome.chrom_id
+ORDER BY gene.expr_quantity DESC
+LIMIT 10;
+
+-- Case 3
+/*
+    @name get_ORF&&Relative_trans_length
+    First, use inner join to connect gene, transcript and chromosome tables via foreign keys. Then use WHERE
+    command to randomly select 3 genes. By connection, the information of chromosome and all transcripts of
+    selected genes can be used. Last, the size of the chromosome is divided by the absolute length of
+    transcripts to calculate the relative length of transcripts, in addition, the length of open reading
+    frame is calculated as ORF_length.
+*/
+SELECT gene.gene_id AS gene_id, Ensembl_trans_id, chromosome,
+       (ABS(trans_end - trans_start))/chrom_size AS relative_trans_length,
+       ABS(coding_end - coding_start) AS ORF_length
+FROM gene
+    INNER JOIN transcript ON gene.gene_id = transcript.gene_id
+    INNER JOIN chromosome ON gene.chrom_id = chromosome.chrom_id
+WHERE gene.gene_id in (10,20,30);
+
+-- Case 4
+/*
+    @name find_genes_on_chromosomes
+    First, connect chromosome and gene tables as above, and divide the connected table into smaller groups
+    via chrom_id. Each group represents one chromosome. Then, calculate the number of gene_name in each group
+    to select which group have more than 10 genes. Last, use this result as a subquery to find all genes
+    on these chromosomes which have more than 10 genes in this mini-database.
+*/
+SELECT gene_name, chromosome
+FROM gene, chromosome
+WHERE gene.chrom_id = chromosome.chrom_id AND gene.chrom_id in (
+    SELECT chromosome.chrom_id
+    FROM gene, chromosome
+    WHERE gene.chrom_id = chromosome.chrom_id
+    GROUP BY gene.chrom_id
+    HAVING COUNT(gene.gene_name) > 10);
+
+-- Case 5
+/*
+    @name get_mutation_count
+    First, connect tissue and protein tables via tissue_id. Next, use the command LIKE to select all proteins
+    whose tissue_specific description contains 'lung' in the connected table. After getting the ids of these
+    proteins, connect protein_mutation, protein, tissue table by left outer join. That is, all proteins are
+    retained whether they have mutations or tissue specificity or not. Then divide the connected table into
+    smaller groups via prot_id. Each group represents one protein and may have many types of mutations.
+    Count the mutation numbers as mutation_count and display them in the result.
+*/
+SELECT prot_short, description, COUNT(mutation) AS mutation_count
+FROM  protein
+    LEFT JOIN protein_mutation on protein.prot_id = protein_mutation.prot_id
+    LEFT JOIN tissue on protein.tissue_id = tissue.tissue_id
+WHERE protein.prot_id in (
+    SELECT protein.prot_id
+    FROM tissue, protein
+    WHERE protein.tissue_id = tissue.tissue_id AND
+          tissue.description LIKE '%lung%' OR 'Lung%')
+GROUP BY protein.prot_id
+ORDER BY mutation_count;

@@ -1,0 +1,139 @@
+Annotation
+"intron (NM_134147, intron 3 of 10)"
+"intron (NM_181348, intron 9 of 19)"
+"intron (NM_019869, intron 1 of 2)"
+"intron (NR_131008, intron 1 of 1)"
+Intergenic
+"intron (NM_001033128, intron 11 of 16)"
+Intergenic
+"intron (NM_001034963, intron 11 of 22)"
+"intron (NM_053076, intron 1 of 6)"
+Intergenic
+"intron (NM_023529, intron 1 of 8)"
+Intergenic
+"intron (NM_181348, intron 6 of 19)"
+Intergenic
+Intergenic
+"intron (NM_001360457, intron 1 of 26)"
+Intergenic
+"intron (NM_181415, intron 28 of 28)"
+Intergenic
+Intergenic
+Intergenic
+Intergenic
+promoter-TSS (NM_007953)
+"intron (NM_011416, intron 1 of 32)"
+"intron (NM_175459, intron 2 of 10)"
+"intron (NR_040316, intron 1 of 2)"
+"intron (NM_175459, intron 2 of 10)"
+Intergenic
+"intron (NM_001037801, intron 1 of 11)"
+Intergenic
+Intergenic
+promoter-TSS (NM_011778)
+"intron (NM_028953, intron 2 of 20)"
+Intergenic
+promoter-TSS (NM_172252)
+"intron (NM_001110504, intron 6 of 21)"
+"intron (NM_013495, intron 1 of 18)"
+Intergenic
+"intron (NM_001356588, intron 2 of 14)"
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_178930, intron 3 of 39)"
+promoter-TSS (NM_024231)
+Intergenic
+"intron (NR_160911, intron 4 of 6)"
+Intergenic
+Intergenic
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_178930, intron 2 of 39)"
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_181348, intron 10 of 19)"
+Intergenic
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_001081076, intron 8 of 20)"
+Intergenic
+"exon (NM_001001984, exon 14 of 21)"
+Intergenic
+"intron (NM_001099634, intron 1 of 52)"
+"intron (NM_001360392, intron 1 of 22)"
+TTS (NR_105831)
+Intergenic
+"intron (NM_001035239, intron 1 of 24)"
+"intron (NM_198296, intron 1 of 25)"
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_008137, intron 1 of 6)"
+Intergenic
+"intron (NR_045329, intron 2 of 2)"
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_001360431, intron 8 of 8)"
+"intron (NM_001048177, intron 8 of 23)"
+Intergenic
+promoter-TSS (NM_027236)
+"intron (NM_177034, intron 10 of 12)"
+Intergenic
+Intergenic
+promoter-TSS (NM_001081041)
+"intron (NM_001360392, intron 1 of 22)"
+Intergenic
+Intergenic
+Intergenic
+promoter-TSS (NR_033510)
+Intergenic
+Intergenic
+"intron (NM_001013833, intron 3 of 17)"
+Intergenic
+"intron (NM_001360457, intron 4 of 26)"
+Intergenic
+Intergenic
+"intron (NM_001360431, intron 6 of 8)"
+"intron (NM_001360431, intron 8 of 8)"
+Intergenic
+"intron (NM_011904, intron 1 of 20)"
+Intergenic
+"intron (NR_160911, intron 4 of 6)"
+"intron (NM_025950, intron 5 of 6)"
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_198114, intron 5 of 19)"
+promoter-TSS (NM_197993)
+"intron (NM_175459, intron 2 of 10)"
+Intergenic
+Intergenic
+Intergenic
+Intergenic
+"intron (NM_001164363, intron 1 of 17)"
+"intron (NM_001362423, intron 3 of 9)"
+promoter-TSS (NM_007611)
+Intergenic
+"intron (NR_045317, intron 2 of 2)"
+Intergenic
+"intron (NM_145502, intron 6 of 10)"
+promoter-TSS (NM_011037)
+"5' UTR (NM_001167889, exon 2 of 11)"
+"intron (NM_001360431, intron 8 of 8)"
+"intron (NM_001164717, intron 1 of 13)"
+Intergenic
+"intron (NM_181415, intron 24 of 28)"
+"intron (NM_028627, intron 15 of 17)"
+"5' UTR (NM_133746, exon 1 of 3)"
+Intergenic
+Intergenic
+"intron (NM_001365054, intron 15 of 16)"
+"intron (NM_027976, intron 2 of 21)"
+"intron (NM_009848, intron 1 of 9)"
+"3' UTR (NM_001290127, exon 4 of 4)"
+"intron (NM_017375, intron 1 of 9)"

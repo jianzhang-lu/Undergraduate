@@ -1,0 +1,232 @@
+---
+title: "2021 ADS2 Week6 DataCleaning ProblemSet Note"
+author: "by Xianghua Li xianghuali@intl.zju.edu.cn, modified based on Wanlu Liu 2019-10-14"
+date: '2021-10-14'
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 1. I believe that you have run all the scripts in the ADS2Week5_ProblemSet! 
+Now let's see how you went on in cleaning the data & 
+
+### 1.1. Setting up working directory
+Before we start, we need to set up our working directory.**This is a absolute or relative directory?**
+
+
+### 1.2. Import data
+The next thing we need to do is import our data. We have learnt in the lecture, there are several function to import data (including: read.delim, read.delim2, read.csv, read.csv2).
+Since my data is in xxx.csv format, so I use **read.csv()** function
+```{r import}
+data=read.csv("D:/R文件/ADS_practical/Rdata_diamonds_samples100_mdf.csv")
+head(data)
+```
+
+### 2. Data Cleaning
+Now let's try to clean our data. Still remember the **screen-diagnosis-treat-document** rules?
+
+#### 2.1 Missing data
+
+##### 2.1.1 Screen-Diagnosis
+We first want to screen the missing data. We want to know, how the missing data is coded? (NA or NAN or ND or blank)? which rows have a missing data? which column have a missing data?
+```{r missing screen}
+head(data)
+head(is.na(data))
+tail(data)
+tail(is.na(data))
+apply(is.na(data),2,which) #this is to find the row,col of NA
+```
+Looks like our missing data is coded with NA. And we don't know how to handle those missing data (no data to fill it up), so the treat we would like to take is to remove those entries.
+
+##### 2.1.2 Treat 
+```{r missing treat}
+dim(data)
+data.noNA=data[complete.cases(data),]
+dim(data.noNA)
+```
+After removing NA-containing rows, the number of rows change from 103 to 92. In order to documented this precisely, we need to know which rows were deleted.
+
+##### 2.1.3 Documentation 
+In this dataset, Wanlu found those entries contains missing data. Since there is no data or clues of how to fill up those missing data, Wanlu decidec to delete those data points. Before deleting those rows, in total there are 103 observations (rows), while only 92 remained after the cleaning.
+```{r, missing document}
+print(data[!complete.cases(data),])
+```
+
+#### 2.2 Duplicated data
+
+##### 2.2.1 Screen-Diagnosis
+We then want to screen the duplicated data. We want to know whether there is **duplicated rows** in the dataset?
+```{r duplicated screen}
+duplicated(data.noNA)
+frw.idx=which(duplicated(data.noNA)) #duplciated() will only give you the duplicated rows, but not the original rows, so we need the next line to get the originals
+rvs.idx=which(duplicated(data.noNA,fromLast = TRUE))
+data.noNA[c(frw.idx,rvs.idx),]
+```
+From this results, we can see *ID=50, 93, 26* are lines duplicated. So we want to delete the duplicated copy.
+
+##### 2.2.2 Treat
+Since those duplicated entry are obviously error, we need to delete them from the table.
+```{r duplicated treat}
+dim(data.noNA)
+data.noNA.noDup=data.noNA[!duplicated(data.noNA),]
+dim(data.noNA.noDup)
+```
+From this step, you can see, after removing the duplcated rows, the dimension of the dataframe decrease from 92 to 89.
+
+##### 2.2.3 Documentation
+In this dataset, Wanlu found three entries (listed below) are duplicated.Wanlu decided to delete those duplicated data points. After deleting those duplicated rows, there are 89 observations left.
+```{r duplicated documentation}
+data.noNA[duplicated(data.noNA),]
+```
+
+
+#### 2.3 Strange pattern
+After removing the missing data and duplicated data, we now want to see whether there is any outliers or strange patterns. I will leave the outlier investigation in the problem set. Let's see there is any strange pattern together.
+
+##### 2.3.1 Screen
+We know that diamond and it's volume have a linear relationship. Thus, we would like to investigate the relationship between carat vs. volume. In order to test this idea, we need to generate a new vector called volume=x\*y\*z.
+```{r strange screen}
+data.noNA.noDup$volume=data.noNA.noDup$x*data.noNA.noDup$y*data.noNA.noDup$z
+head(data.noNA.noDup)
+```
+
+we then plot scatterplot of carat vs volume to see whether they have a linear relationship.
+```{r strange screen2}
+plot(x=data.noNA.noDup$carat,y=data.noNA.noDup$volume,
+     pch=20,col="darkgoldenrod4",
+     las=1,xlab="carat",ylab="volume",
+     main="diamond carat ~ volume")
+text(data.noNA.noDup$carat, data.noNA.noDup$volume,
+     labels=data.noNA.noDup$ID,col="dimgray",
+     cex= 0.7, pos=4)
+```
+
+##### 2.3.2 Diagnosis
+Here we found two strange data point, ID=7 and ID=28. We decide to take a look at those two IDs.
+```{r strange diagnosis}
+print(data.noNA.noDup[which(data.noNA.noDup$ID=="7"),])
+print(data.noNA.noDup[which(data.noNA.noDup$ID=="28"),])
+```
+From this results, we found ID=28 have a z dimension =0, which is definitely wrong (There is no real TWO-Dimension diamond :). If we cannot find the correct data, we need to delete this data point.
+
+How about ID=7? the x,y,z looks suspecious for ID=7, could we entered the data wrong for x.y.x? It indeed looks strange, so let's check whether there is any duplication of x y z. (Maybe we assigned some other diamonds' xyz to ID=7)?
+
+Since x,y,z is stored in column 9 to 11, let's view the head of it first.
+```{r Diagnosis}
+head(data.noNA.noDup[,9:11])
+print(data.noNA.noDup[duplicated(data.noNA.noDup[,9:11],fromLast = "TRUE"),])
+fwrd.dup.idx=which(duplicated(data.noNA.noDup[,9:11]))
+rvse.dup.idx=which(duplicated(data.noNA.noDup[,9:11],fromLast = TRUE))
+data.noNA.noDup[c(fwrd.dup.idx,rvse.dup.idx),]
+```
+From the results above, seems like ID=6 and ID=7 have exactly the same x,y,z so ID=7 is very likely be a errorous entry as well.
+
+##### 2.3.3 Treat
+From our analysis on the carat vs volume, we found the data collection for ID=7 and ID=28 are both errorous. So we need to delete this two data point as well. 
+```{r strange treat}
+data.noNA.noDup.noStrg=data.noNA.noDup[-which(data.noNA.noDup$ID==7 | data.noNA.noDup$ID==28),]
+dim(data.noNA.noDup)
+dim(data.noNA.noDup.noStrg)
+```
+
+##### 2.3.4 Documentation
+When wanlu investigate the relationship between diamond carat and diamond volume, she found that ID=28 have no z dimension while ID=7 share the same x y z dimension with ID=6. She thinks this two entry is errorous during data collection or recording. So she decided to delete this two entry from the data. After removing those two strange pattern data point, there is 87 valid observations left.
+
+
+##### 2.4 Correct typos in the dataset. 
+After running all the procedure above (clean missing, duplicated, strange data), first we want to see whether there is any typo. **Please check those character/factor vectors in the diamonds data, see whether you can find any typos and then correct those typo in R? Remember to document any edit you do properly. Use screen-diagnosis-treat-document strategy.**
+
+##### 2.4.1 Screen
+
+```{r typo screen}
+summary(data.noNA.noDup.noStrg$cut)
+```
+
+
+##### 2.4.2 Diagnosis
+
+```{r typo diagnosis}
+print(data.noNA.noDup.noStrg[which(data.noNA.noDup.noStrg$cut=="Idea"),])
+```
+
+##### 2.4.3 Treat
+
+```{r typo treat}
+data.noNA.noDup.noStrg.notypo=data.noNA.noDup.noStrg
+data.noNA.noDup.noStrg.notypo$cut[which(data.noNA.noDup.noStrg.notypo$cut=="Idea")]="Ideal"
+summary(data.noNA.noDup.noStrg.notypo$cut)
+```
+
+##### 2.4.4 Documentation
+When wanlu dececided to change "Idea" to "Ideal" considering the context. 
+
+### 3. Find outliers in the dataset.
+After removing the missing data, duplicated data, strange data and typos, we now want to see whether there is any outliers. For example, is there any outlier if we investigate the relationship between carat vs price. Since we know, the diamond price is positively correlate with its carat! (the bigger the diamond is the more expensive).
+
+What to do: **1. screen for out outliers 2. diagnosis for out outliers 3. treat out outliers 4. documentation **
+
+Hint: if the data looks suspicious, and you don’t know whether you should remove it or not, you can generate a new indicator vector to the dataframe to indicate whether this observation is suspicious (but you don’t have evidence to delete it).
+
+##### 3.1 Screen
+
+```{r outlier screen}
+plot(x=data.noNA.noDup.noStrg.notypo$carat,y=data.noNA.noDup.noStrg.notypo$price,
+     pch=20,col="darkslateblue",
+     las=1,xlab="carat",ylab="price",
+     main="diamond carat ~ price")
+text(data.noNA.noDup.noStrg.notypo$carat, data.noNA.noDup.noStrg.notypo$price,
+     labels=data.noNA.noDup.noStrg.notypo$ID,col="dimgray",
+     cex= 0.7, pos=4)
+```
+
+##### 3.2 Diagnose
+From the scatterplot above, we realize there maybe two outliers, ID=96 and ID=27 So let’s take a more detail view on this two ID.
+```{r outlier diagnose}
+print(data.noNA.noDup.noStrg.notypo[which(data.noNA.noDup.noStrg.notypo$ID=="96"),])
+print(data.noNA.noDup.noStrg.notypo[which(data.noNA.noDup.noStrg.notypo$ID=="27"),])
+```
+
+Even those two outliers look quite suspecious, but we didn’t have evidence to show it’s wrong.So we decide to let’s view some IDs surrondings to those two strange IDs.
+```{r outlier diagnose2}
+print(data.noNA.noDup.noStrg.notypo[(which(data.noNA.noDup.noStrg.notypo$ID=="96")-2):(which(data.noNA.noDup.noStrg.notypo$ID=="96")+2),])
+print(data.noNA.noDup.noStrg.notypo[(which(data.noNA.noDup.noStrg.notypo$ID=="27")-2):(which(data.noNA.noDup.noStrg.notypo$ID=="27")+2),])
+```
+
+##### 3.3 Treat
+We have two outlier ID=96 and ID=27, but we don’t have evidence to show they are wrong,so we can add a vector to indicate whether they are suspecious or not.
+
+```{r outlier treat}
+outlier.idx=rep(0,nrow(data.noNA.noDup.noStrg.notypo))
+outlier.idx[which(data.noNA.noDup.noStrg.notypo$ID==96)]=1
+outlier.idx[which(data.noNA.noDup.noStrg.notypo$ID==27)]=1
+data.noNA.noDup.noStrg.notypo.mkOtlr=data.frame(data.noNA.noDup.noStrg.notypo,otlr=outlier.idx)
+head(data.noNA.noDup.noStrg.notypo.mkOtlr)
+tail(data.noNA.noDup.noStrg.notypo.mkOtlr)
+```
+
+##### 3.4 Documentation
+During investigation of the relationship between carat vs price, wanlu found two obvious outlier with ID=27 and ID=96. After detailed diagnosis, she found no evidence showing that those two outliers are errorous. So wanlu added another vector called otlr into the dataframe to indicate whether it is an outlier or not.
+
+
+### 4. Bounce Question (Optional)
+For the outliers you identified above, those have strange pattern of carat ~ price, try to make more plot to see whether this strange pattern is actually correlate with other features?
+
+Task: try to plot the relationship between carat ~ price, but seperate data points by their clarity. (hint: use ggplot2, facet_grid() function).
+
+```{r Bounce}
+plot.df=data.noNA.noDup.noStrg.notypo.mkOtlr #the name is too long, let's simplify it a little bit
+library(ggplot2)
+
+p=ggplot(plot.df,aes(x=carat,y=price,color=as.factor(otlr))) # in case some points overlap
+p+geom_point(alpha=0.6)+facet_grid(clarity~.) 
+```
+
+Wanlu decided that they are not outliers. What do you think? 
+
+#### R Markdown
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.

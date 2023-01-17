@@ -1,0 +1,175 @@
+protein_id,Uniprot_id,protein_short_name,protein_full_name,protein_length,tissue_specificity_id
+1,Q9UP79,ATS8_HUMAN,A disintegrin and metalloproteinase with thrombospondin motifs 8 (ADAM-TS 8) (ADAM-TS8) (ADAMTS-8) (EC 3.4.24.-) (METH-2) (METH-8),889,1
+2,E7EVL1,E7EVL1_HUMAN,Adenylate cyclase type 8 (EC 4.6.1.1),1120,
+3,P40145,ADCY8_HUMAN,Adenylate cyclase type 8 (EC 4.6.1.1) (ATP pyrophosphate-lyase 8) (Adenylate cyclase type VIII) (Adenylyl cyclase 8) (AC8) (Ca(2+)/calmodulin-activated adenylyl cyclase),1251,2
+4,P07327,ADH1A_HUMAN,Alcohol dehydrogenase 1A (EC 1.1.1.1) (Alcohol dehydrogenase subunit alpha),375,
+5,D6RHZ6,D6RHZ6_HUMAN,All-trans-retinol dehydrogenase [NAD(+)] ADH1B,335,
+6,V9HW50,V9HW50_HUMAN,All-trans-retinol dehydrogenase [NAD(+)] ADH1B (Epididymis secretory protein Li 117),375,
+7,P00325,ADH1B_HUMAN,All-trans-retinol dehydrogenase [NAD(+)] ADH1B (EC 1.1.1.105) (Alcohol dehydrogenase 1B) (Alcohol dehydrogenase subunit beta),375,
+8,P08588,ADRB1_HUMAN,Beta-1 adrenergic receptor (Beta-1 adrenoreceptor) (Beta-1 adrenoceptor),477,
+9,P50052,AGTR2_HUMAN,Type-2 angiotensin II receptor (Angiotensin II type-2 receptor) (AT2),363,3
+10,O60218,AK1BA_HUMAN,Aldo-keto reductase family 1 member B10 (EC 1.1.1.300) (EC 1.1.1.54) (ARL-1) (Aldose reductase-like) (Aldose reductase-related protein) (ARP) (hARP) (Small intestine reductase) (SI reductase),316,4
+11,Q15327,ANKR1_HUMAN,Ankyrin repeat domain-containing protein 1 (Cardiac ankyrin repeat protein) (Cytokine-inducible gene C-193 protein) (Cytokine-inducible nuclear protein),319,5
+12,A0A075B748,A0A075B748_HUMAN,Annexin A8,21,
+13,P13928,ANXA8_HUMAN,Annexin A8 (Annexin VIII) (Annexin-8) (Vascular anticoagulant-beta) (VAC-beta),327,
+14,A0A087WTN9,A0A087WTN9_HUMAN,Annexin,365,
+15,A0A075B765,A0A075B765_HUMAN,Annexin,276,
+16,Q9Y2A9,B3GN3_HUMAN,"N-acetyllactosaminide beta-1,3-N-acetylglucosaminyltransferase 3 (EC 2.4.1.149) (Beta-1,3-galactosyl-O-glycosyl-glycoprotein beta-1,3-N-acetylglucosaminyltransferase) (EC 2.4.1.146) (Beta-1,3-galactosyltransferase 8) (Beta-1,3-GalTase 8) (Beta3Gal-T8) (Beta3GalT8) (b3Gal-T8) (Beta-3-Gx-T8) (Core 1 extending beta-1,3-N-acetylglucosaminyltransferase) (Core1-beta3GlcNAcT) (Transmembrane protein 3) (UDP-Gal:beta-GlcNAc beta-1,3-galactosyltransferase 8) (UDP-GlcNAc:betaGal beta-1,3-N-acetylglucosaminyltransferase 3) (BGnT-3) (Beta-1,3-Gn-T3) (Beta-1,3-N-acetylglucosaminyltransferase 3) (Beta3Gn-T3) (UDP-galactose:beta-N-acetylglucosamine beta-1,3-galactosyltransferase 8)",372,6
+17,Q6ZMB0,B3GN6_HUMAN,"Acetylgalactosaminyl-O-glycosyl-glycoprotein beta-1,3-N-acetylglucosaminyltransferase (EC 2.4.1.147) (Core 3 synthase) (UDP-GlcNAc:betaGal beta-1,3-N-acetylglucosaminyltransferase 6) (BGnT-6) (Beta-1,3-Gn-T6) (Beta-1,3-N-acetylglucosaminyltransferase 6) (Beta3Gn-T6)",384,7
+18,Q9HBU1,BARX1_HUMAN,Homeobox protein BarH-like 1,254,8
+19,Q6UXG8,BTNL9_HUMAN,Butyrophilin-like protein 9,535,
+20,B7Z4Y8,B7Z4Y8_HUMAN,"Butyrophilin-like protein 9 (cDNA FLJ52190, highly similar to Butyrophilin-like protein 9)",246,
+21,P22748,CAH4_HUMAN,Carbonic anhydrase 4 (EC 4.2.1.1) (Carbonate dehydratase IV) (Carbonic anhydrase IV) (CA-IV),312,9
+22,A0A087WYS4,A0A087WYS4_HUMAN,Carbonic anhydrase (EC 4.2.1.1),356,
+23,Q16790,CAH9_HUMAN,Carbonic anhydrase 9 (EC 4.2.1.1) (Carbonate dehydratase IX) (Carbonic anhydrase IX) (CA-IX) (CAIX) (Membrane antigen MN) (P54/58N) (Renal cell carcinoma-associated antigen G250) (RCC-associated antigen G250) (pMW1),459,10
+24,P30307,MPIP3_HUMAN,M-phase inducer phosphatase 3 (EC 3.1.3.48) (Dual specificity phosphatase Cdc25C),473,
+25,A0A5K1VW85,A0A5K1VW85_HUMAN,Cell division control protein 45 homolog,398,
+26,O75419,CDC45_HUMAN,Cell division control protein 45 homolog (PORC-PI-1),566,11
+27,P11229,ACM1_HUMAN,Muscarinic acetylcholine receptor M1,460,
+28,Q9NZA1,CLIC5_HUMAN,Chloride intracellular channel protein 5,410,12
+29,A0A5F9ZHK1,A0A5F9ZHK1_HUMAN,Chloride intracellular channel protein 5,219,
+30,A0A2R8Y4M1,A0A2R8Y4M1_HUMAN,Chloride intracellular channel protein 5,200,
+31,A0A2R8Y615,A0A2R8Y615_HUMAN,Chloride intracellular channel protein,242,
+32,Q03692,COAA1_HUMAN,Collagen alpha-1(X) chain,680,
+33,A0A087WSY5,A0A087WSY5_HUMAN,Carboxypeptidase B2,386,
+34,A0A6Q8PHS9,A0A6Q8PHS9_HUMAN,Carboxypeptidase B2,207,
+35,Q96IY4,CBPB2_HUMAN,Carboxypeptidase B2 (EC 3.4.17.20) (Carboxypeptidase U) (CPU) (Plasma carboxypeptidase B) (pCPB) (Thrombin-activable fibrinolysis inhibitor) (TAFI),423,13
+36,A0A0C4DFP6,A0A0C4DFP6_HUMAN,Cartilage acidic protein 1,637,
+37,Q9NQ79,CRAC1_HUMAN,Cartilage acidic protein 1 (68 kDa chondrocyte-expressed protein) (CEP-68) (ASPIC),661,14
+38,P09919,CSF3_HUMAN,Granulocyte colony-stimulating factor (G-CSF) (Pluripoietin) (Filgrastim) (Lenograstim),207,
+39,J3KTH8,J3KTH8_HUMAN,Granulocyte colony-stimulating factor,164,
+40,Q8N4W3,Q8N4W3_HUMAN,Granulocyte colony-stimulating factor,200,
+41,E7EVQ5,E7EVQ5_HUMAN,Collagen triple helix repeat-containing protein 1,147,
+42,Q96CG8,CTHR1_HUMAN,Collagen triple helix repeat-containing protein 1,243,15
+43,E5RK99,E5RK99_HUMAN,Collagen triple helix repeat-containing protein 1,113,
+44,P05177,CP1A2_HUMAN,Cytochrome P450 1A2 (EC 1.14.14.1) (CYPIA2) (Cholesterol 25-hydroxylase) (Cytochrome P(3)450) (Cytochrome P450 4) (Cytochrome P450-P3) (Hydroperoxy icosatetraenoate dehydratase) (EC 4.2.1.152),516,16
+45,Q07973,CP24A_HUMAN,"1,25-dihydroxyvitamin D(3) 24-hydroxylase, mitochondrial (24-OHase) (Vitamin D(3) 24-hydroxylase) (EC 1.14.15.16) (Cytochrome P450 24A1) (Cytochrome P450-CC24)",514,
+46,Q15398,DLGP5_HUMAN,Disks large-associated protein 5 (DAP-5) (Discs large homolog 7) (Disks large-associated protein DLG7) (Hepatoma up-regulated protein) (HURP),846,17
+47,Q9NRD9,DUOX1_HUMAN,Dual oxidase 1 (EC 1.11.1.-) (EC 1.6.3.1) (Large NOX 1) (Long NOX 1) (NADPH thyroid oxidase 1) (Thyroid oxidase 1),1551,18
+48,Q05639,EF1A2_HUMAN,Elongation factor 1-alpha 2 (EF-1-alpha-2) (Eukaryotic elongation factor 1 A-2) (eEF1A-2) (Statin-S1),463,19
+49,Q5MY95,ENTP8_HUMAN,Ectonucleoside triphosphate diphosphohydrolase 8 (E-NTPDase 8) (NTPDase 8) (NTPDase8) (EC 3.6.1.5),495,
+50,P03951,FA11_HUMAN,Coagulation factor XI (FXI) (EC 3.4.21.27) (Plasma thromboplastin antecedent) (PTA) [Cleaved into: Coagulation factor XIa heavy chain; Coagulation factor XIa light chain],625,20
+51,D6RB32,D6RB32_HUMAN,Coagulation factor XI,162,
+52,P15090,FABP4_HUMAN,"Fatty acid-binding protein, adipocyte (Adipocyte lipid-binding protein) (ALBP) (Adipocyte-type fatty acid-binding protein) (A-FABP) (AFABP) (Fatty acid-binding protein 4)",132,
+53,Q86UY5,FA83A_HUMAN,Protein FAM83A (Tumor antigen BJ-TSA-9) (Tumor-specific gene expressed in prostate protein),434,
+54,D6REL8,D6REL8_HUMAN,Fibrinogen beta chain,272,
+55,P02675,FIBB_HUMAN,Fibrinogen beta chain [Cleaved into: Fibrinopeptide B; Fibrinogen beta chain],491,21
+56,Q9BYJ0,FGFP2_HUMAN,Fibroblast growth factor-binding protein 2 (FGF-BP2) (FGF-binding protein 2) (FGFBP-2) (37 kDa killer-specific secretory protein) (Ksp37) (HBp17-related protein) (HBp17-RP),223,22
+57,Q08830,FGL1_HUMAN,Fibrinogen-like protein 1 (HP-041) (Hepassocin) (HPS) (Hepatocyte-derived fibrinogen-related protein 1) (HFREP-1) (Liver fibrinogen-related protein 1) (LFIRE-1),312,23
+58,P41439,FOLR3_HUMAN,Folate receptor gamma (FR-gamma) (Folate receptor 3),245,24
+59,A0A452Q700,A0A452Q700_HUMAN,Folate receptor gamma,104,
+60,P53539,FOSB_HUMAN,Protein fosB (G0/G1 switch regulatory protein 3),338,
+61,K7ERZ8,K7ERZ8_HUMAN,Protein fosB,188,
+62,K7EJ89,K7EJ89_HUMAN,Protein fosB,177,
+63,K7EKC1,K7EKC1_HUMAN,Protein fosB,237,
+64,O95395,GCNT3_HUMAN,"Beta-1,3-galactosyl-O-glycosyl-glycoprotein beta-1,6-N-acetylglucosaminyltransferase 3 (EC 2.4.1.102) (EC 2.4.1.148) (EC 2.4.1.150) (C2GnT-mucin type) (C2GnT-M) (hC2GnT-M) (Core 2/core 4 beta-1,6-N-acetylglucosaminyltransferase) (C2/4GnT)",438,25
+65,P55107,GDF10_HUMAN,Growth/differentiation factor 10 (GDF-10) (Bone morphogenetic protein 3B) (BMP-3B) (Bone-inducing protein) (BIP),478,26
+66,P29033,CXB2_HUMAN,Gap junction beta-2 protein (Connexin-26) (Cx26),226,
+67,P21695,GPDA_HUMAN,"Glycerol-3-phosphate dehydrogenase [NAD(+)], cytoplasmic (GPD-C) (GPDH-C) (EC 1.1.1.8)",349,27
+68,Q8IV16,HDBP1_HUMAN,Glycosylphosphatidylinositol-anchored high density lipoprotein-binding protein 1 (GPI-HBP1) (GPI-anchored HDL-binding protein 1) (High density lipoprotein-binding protein 1),184,
+69,G3V1N2,G3V1N2_HUMAN,"HCG1745306, isoform CRA_a (Hemoglobin subunit alpha)",110,
+70,P69905,HBA_HUMAN,Hemoglobin subunit alpha (Alpha-globin) (Hemoglobin alpha chain),142,28
+71,Q96QV1,HHIP_HUMAN,Hedgehog-interacting protein (HHIP) (HIP),700,29
+72,P46098,5HT3A_HUMAN,5-hydroxytryptamine receptor 3A (5-HT3-A) (5-HT3A) (5-hydroxytryptamine receptor 3) (5-HT-3) (5-HT3R) (Serotonin receptor 3A) (Serotonin-gated ion channel receptor),478,30
+73,O95050,INMT_HUMAN,Indolethylamine N-methyltransferase (Indolamine N-methyltransferase) (EC 2.1.1.49) (EC 2.1.1.96) (Aromatic alkylamine N-methyltransferase) (Amine N-methyltransferase) (Arylamine N-methyltransferase) (Thioether S-methyltransferase) (TEMT),263,31
+74,P23677,IP3KA_HUMAN,"Inositol-trisphosphate 3-kinase A (EC 2.7.1.127) (Inositol 1,4,5-trisphosphate 3-kinase A) (IP3 3-kinase A) (IP3K A) (InsP 3-kinase A)",461,
+75,P22459,KCNA4_HUMAN,Potassium voltage-gated channel subfamily A member 4 (HPCN2) (Voltage-gated K(+) channel HuKII) (Voltage-gated potassium channel HBK4) (Voltage-gated potassium channel HK1) (Voltage-gated potassium channel subunit Kv1.4),653,32
+76,Q6ZU52,K0408_HUMAN,Uncharacterized protein KIAA0408,694,
+77,O95239,KIF4A_HUMAN,Chromosome-associated kinesin KIF4A (Chromokinesin-A),1232,33
+78,P08779,K1C16_HUMAN,"Keratin, type I cytoskeletal 16 (Cytokeratin-16) (CK-16) (Keratin-16) (K16)",473,34
+79,P19013,K2C4_HUMAN,"Keratin, type II cytoskeletal 4 (Cytokeratin-4) (CK-4) (Keratin-4) (K4) (Type-II keratin Kb4)",520,35
+80,Q8N145,LGI3_HUMAN,Leucine-rich repeat LGI family member 3 (LGI1-like protein 4) (Leucine-rich glioma-inactivated protein 3),548,36
+81,Q1X8D7,LRC36_HUMAN,Leucine-rich repeat-containing protein 36 (ROR gamma-binding protein 70),754,
+82,P31152,MK04_HUMAN,Mitogen-activated protein kinase 4 (MAP kinase 4) (MAPK 4) (EC 2.7.11.24) (Extracellular signal-regulated kinase 4) (ERK-4) (MAP kinase isoform p63) (p63-MAPK),587,37
+83,K7EN18,K7EN18_HUMAN,Mitogen-activated protein kinase (EC 2.7.11.24),281,
+84,B4DEW2,B4DEW2_HUMAN,Mitogen-activated protein kinase (EC 2.7.11.24),376,
+85,K7ELV1,K7ELV1_HUMAN,Mitogen-activated protein kinase (EC 2.7.11.24),233,
+86,Q14680,MELK_HUMAN,Maternal embryonic leucine zipper kinase (hMELK) (EC 2.7.11.1) (Protein kinase Eg3) (pEg3 kinase) (Protein kinase PK38) (hPK38) (Tyrosine-protein kinase MELK) (EC 2.7.10.2),651,38
+87,P03956,MMP1_HUMAN,Interstitial collagenase (EC 3.4.24.7) (Fibroblast collagenase) (Matrix metalloproteinase-1) (MMP-1) [Cleaved into: 22 kDa interstitial collagenase; 27 kDa interstitial collagenase],469,
+88,P39900,MMP12_HUMAN,Macrophage metalloelastase (MME) (EC 3.4.24.65) (Macrophage elastase) (ME) (hME) (Matrix metalloproteinase-12) (MMP-12),470,39
+89,P45452,MMP13_HUMAN,Collagenase 3 (EC 3.4.24.-) (Matrix metalloproteinase-13) (MMP-13),471,40
+90,G5E971,G5E971_HUMAN,Collagenase 3 (Matrix metalloproteinase-13),489,
+91,Q7Z5M0,Q7Z5M0_HUMAN,Collagenase 3 (Matrix metalloproteinase-13),383,
+92,P10244,MYBB_HUMAN,Myb-related protein B (B-Myb) (Myb-like protein 2),700,
+93,Q8N987,NECA1_HUMAN,N-terminal EF-hand calcium-binding protein 1 (EF-hand calcium-binding protein 1) (Neuronal calcium-binding protein 1),351,41
+94,D6RBC9,D6RBC9_HUMAN,"Neuromedin U, isoform CRA_a (Neuromedin-U)",147,
+95,A0A0B4J202,A0A0B4J202_HUMAN,Neuromedin-U,158,
+96,E9PDJ7,E9PDJ7_HUMAN,Neuromedin-U,149,
+97,P48645,NMU_HUMAN,Neuromedin-U [Cleaved into: Neuromedin precursor-related peptide 36 (NURP36); Neuromedin precursor-related peptide 33 (NURP33); Neuromedin-U-25 (NmU-25)],174,42
+98,Q9H4D5,NXF3_HUMAN,Nuclear RNA export factor 3 (TAP-like protein 3) (TAPL-3),531,43
+99,A1E959,ODAM_HUMAN,Odontogenic ameloblast-associated protein (Apin),279,44
+100,P09466,PAEP_HUMAN,Glycodelin (GD) (Placental protein 14) (PP14) (Pregnancy-associated endometrial alpha-2 globulin) (PAEG) (PEG) (Progestagen-associated endometrial protein) (Progesterone-associated endometrial protein) (Zona-binding inhibitory factor-1) (ZIF-1),180,45
+101,A6XNE0,A6XNE0_HUMAN,Glycodelin,143,
+102,A2A3E8,A2A3E8_HUMAN,Protocadherin-15,1932,
+103,A2A3E5,A2A3E5_HUMAN,Protocadherin-15,719,
+104,Q96QU1,PCD15_HUMAN,Protocadherin-15,1955,46
+105,A0A087WZN9,A0A087WZN9_HUMAN,Protocadherin-15,1790,
+106,A0A2R8Y6C0,A0A2R8Y6C0_HUMAN,Protocadherin-15,1740,
+107,A9Z1W1,A9Z1W1_HUMAN,Protocadherin-15,1677,
+108,A2A3E6,A2A3E6_HUMAN,Protocadherin-15,1952,
+109,A2A3E4,A2A3E4_HUMAN,Protocadherin-15,981,
+110,A0A087WX70,A0A087WX70_HUMAN,Protocadherin-15,416,
+111,E7EM53,E7EM53_HUMAN,Protocadherin-15,1886,
+112,A2A3E1,A2A3E1_HUMAN,Protocadherin-15,650,
+113,A0A087WTR6,A0A087WTR6_HUMAN,Protocadherin-15,1539,
+114,A2A3D8,A2A3D8_HUMAN,Protocadherin-15,1962,
+115,B7ZBT8,B7ZBT8_HUMAN,Protocadherin-15,1150,
+116,A0A087X1T6,A0A087X1T6_HUMAN,Protocadherin-15,1682,
+117,A2A3E7,A2A3E7_HUMAN,Protocadherin-15,1957,
+118,Q96S96,PEBP4_HUMAN,Phosphatidylethanolamine-binding protein 4 (PEBP-4) (hPEBP4) (Protein cousin-of-RKIP 1),227,
+119,P20142,PEPC_HUMAN,Gastricsin (EC 3.4.23.3) (Pepsinogen C),388,
+120,Q6UXB8,PI16_HUMAN,Peptidase inhibitor 16 (PI-16) (Cysteine-rich secretory protein 9) (CRISP-9) (PSP94-binding protein) (CD antigen CD364),463,47
+121,P78337,PITX1_HUMAN,Pituitary homeobox 1 (Hindlimb-expressed homeobox protein backfoot) (Homeobox protein PITX1) (Paired-like homeodomain transcription factor 1),314,
+122,F8W062,F8W062_HUMAN,Phospholipase A2 (EC 3.1.1.4),119,
+123,Q9BS22,Q9BS22_HUMAN,Phospholipase A2 (EC 3.1.1.4),70,
+124,P04054,PA21B_HUMAN,Phospholipase A2 (EC 3.1.1.4) (Group IB phospholipase A2) (Phosphatidylcholine 2-acylhydrolase 1B),148,48
+125,E9PAT1,E9PAT1_HUMAN,Protein phosphatase 1 regulatory subunit 14D,200,
+126,Q9NXH3,PP14D_HUMAN,Protein phosphatase 1 regulatory subunit 14D (Gastrointestinal and brain-specific PP1-inhibitory protein 1) (GBPI-1),145,49
+127,A0A087WZU1,A0A087WZU1_HUMAN,Protein-tyrosine-phosphatase (EC 3.1.3.48),2299,
+128,A0A087X0B9,A0A087X0B9_HUMAN,Protein-tyrosine-phosphatase (EC 3.1.3.48),2332,
+129,Q9HD89,RETN_HUMAN,Resistin (Adipose tissue-specific secretory factor) (ADSF) (C/EBP-epsilon-regulated myeloid-specific secreted cysteine-rich protein) (Cysteine-rich secreted protein A12-alpha-like 2) (Cysteine-rich secreted protein FIZZ3),108,50
+130,O15537,XLRS1_HUMAN,Retinoschisin (X-linked juvenile retinoschisis protein),224,51
+131,Q6UXX9,RSPO2_HUMAN,R-spondin-2 (Roof plate-specific spondin-2) (hRspo2),243,
+132,Q5SVY4,Q5SVY4_HUMAN,Rhotekin-2,308,
+133,Q8IZC4,RTKN2_HUMAN,Rhotekin-2 (Pleckstrin homology domain-containing family K member 1) (PH domain-containing family K member 1),609,52
+134,Q9HBX9,RXFP1_HUMAN,Relaxin receptor 1 (Leucine-rich repeat-containing G-protein coupled receptor 7) (Relaxin family peptide receptor 1),757,53
+135,B4DGP2,B4DGP2_HUMAN,"Relaxin receptor 1 (cDNA FLJ53318, highly similar to Relaxin receptor 1)",784,
+136,A0A0A0MT52,A0A0A0MT52_HUMAN,Relaxin receptor 1,601,
+137,E9PCA3,E9PCA3_HUMAN,Relaxin receptor 1,676,
+138,A0A087WWV0,A0A087WWV0_HUMAN,Relaxin receptor 1,626,
+139,E9PN95,E9PN95_HUMAN,Secretoglobin family 1A member 1 (Uteroglobin),56,
+140,P11684,UTER_HUMAN,Uteroglobin (Clara cell phospholipid-binding protein) (CCPBP) (Clara cells 10 kDa secretory protein) (CC10) (Secretoglobin family 1A member 1) (Urinary protein 1) (UP-1) (UP1) (Urine protein 1),91,54
+141,Q9UDX4,S14L3_HUMAN,SEC14-like protein 3 (Tocopherol-associated protein 2),400,
+142,B5MC44,B5MC44_HUMAN,SEC14-like protein 3,353,
+143,Q5T4F7,SFRP5_HUMAN,Secreted frizzled-related protein 5 (sFRP-5) (Frizzled-related protein 1b) (FRP-1b) (Secreted apoptosis-related protein 3) (SARP-3),317,55
+144,P35247,SFTPD_HUMAN,Pulmonary surfactant-associated protein D (PSP-D) (SP-D) (Collectin-7) (Lung surfactant protein D),375,56
+145,Q13326,SGCG_HUMAN,Gamma-sarcoglycan (Gamma-SG) (35 kDa dystrophin-associated glycoprotein) (35DAG),291,57
+146,Q99962,SH3G2_HUMAN,Endophilin-A1 (EEN-B1) (Endophilin-1) (SH3 domain protein 2A) (SH3 domain-containing GRB2-like protein 2),352,58
+147,Q99963,SH3G3_HUMAN,Endophilin-A3 (EEN-B2) (Endophilin-3) (SH3 domain protein 2C) (SH3 domain-containing GRB2-like protein 3),347,59
+148,Q6X4U4,SOSD1_HUMAN,Sclerostin domain-containing protein 1 (Ectodermal BMP inhibitor) (Ectodin) (Uterine sensitization-associated gene 1 protein) (USAG-1),206,60
+149,D6RIU5,D6RIU5_HUMAN,Serine protease inhibitor Kazal-type 1,65,
+150,P00995,ISK1_HUMAN,Serine protease inhibitor Kazal-type 1 (Pancreatic secretory trypsin inhibitor) (Tumor-associated trypsin inhibitor) (TATI),79,
+151,P61647,SIA8F_HUMAN,"Alpha-2,8-sialyltransferase 8F (EC 2.4.99.-) (Sialyltransferase 8F) (SIAT8-F) (Sialyltransferase St8Sia VI) (ST8SiaVI)",398,
+152,Q8NFX7,STXB6_HUMAN,Syntaxin-binding protein 6 (Amisyn),210,61
+153,Q8IV01,SYT12_HUMAN,Synaptotagmin-12 (Synaptotagmin XII) (SytXII),421,
+154,X6R8R1,X6R8R1_HUMAN,Synaptotagmin-15,474,
+155,Q9BQS2,SYT15_HUMAN,Synaptotagmin-15 (Chr10Syt) (Synaptotagmin XV) (SytXV),421,
+156,O43680,TCF21_HUMAN,Transcription factor 21 (TCF-21) (Capsulin) (Class A basic helix-loop-helix protein 23) (bHLHa23) (Epicardin) (Podocyte-expressed 1) (Pod-1),179,
+157,Q9NV29,TM100_HUMAN,Transmembrane protein 100,134,62
+158,Q9NRS4,TMPS4_HUMAN,Transmembrane protease serine 4 (EC 3.4.21.-) (Channel-activating protease 2) (CAPH2) (Membrane-type serine protease 2) (MT-SP2) [Cleaved into: Transmembrane protease serine 4 catalytic chain],437,63
+159,A0A087WTU6,A0A087WTU6_HUMAN,Transmembrane protease serine 4,399,
+160,E7ESG9,E7ESG9_HUMAN,Transmembrane protease serine 4,290,
+161,P11388,TOP2A_HUMAN,"DNA topoisomerase 2-alpha (EC 5.6.2.2) (DNA topoisomerase II, alpha isozyme)",1531,64
+162,F8W1U0,F8W1U0_HUMAN,Tastin,457,
+163,Q12815,TROAP_HUMAN,Tastin (Trophinin-assisting protein) (Trophinin-associated protein),778,65
+164,F8W130,F8W130_HUMAN,Tastin,868,
+165,F8VVX4,F8VVX4_HUMAN,Tastin,68,
+166,F8VXF3,F8VXF3_HUMAN,Tastin,126,
+167,F8VXV6,F8VXV6_HUMAN,Tastin,52,
+168,K4DI81,K4DI81_HUMAN,"Ubiquitin-conjugating enzyme E2 C (Ubiquitin-conjugating enzyme E2C, isoform CRA_d)",50,
+169,O00762,UBE2C_HUMAN,Ubiquitin-conjugating enzyme E2 C (EC 2.3.2.23) ((E3-independent) E2 ubiquitin-conjugating enzyme C) (EC 2.3.2.24) (E2 ubiquitin-conjugating enzyme C) (UbcH10) (Ubiquitin carrier protein C) (Ubiquitin-protein ligase C),179,
+170,A0A0A0MSE8,A0A0A0MSE8_HUMAN,Ubiquitin-conjugating enzyme E2 C,79,
+171,A0A087WVK1,A0A087WVK1_HUMAN,Ubiquitin-conjugating enzyme E2 C,132,
+172,Q9BT76,UPK3B_HUMAN,Uroplakin-3b (UP3b) (Uroplakin IIIb) (UPIIIb) (p35),320,
+173,A0A0J9YVS6,A0A0J9YVS6_HUMAN,Uroplakin-3b,265,
+174,Q9Y5W5,WIF1_HUMAN,Wnt inhibitory factor 1 (WIF-1),379,

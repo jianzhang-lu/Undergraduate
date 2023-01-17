@@ -1,0 +1,10 @@
+sample	group	batch
+Reporter.intensity.0	DMSO	1
+Reporter.intensity.1	DMSO	1
+Reporter.intensity.2	DMSO	1
+Reporter.intensity.3	Drug1	1
+Reporter.intensity.4	Drug1	1
+Reporter.intensity.5	Drug1	1
+Reporter.intensity.6	Drug2	1
+Reporter.intensity.7	Drug2	1
+Reporter.intensity.8	Drug2	1

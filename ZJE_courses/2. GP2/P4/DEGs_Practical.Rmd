@@ -1,0 +1,420 @@
+---
+title: "GP2 Practical 4. Differentially Expressed Genes"
+author: "Mikael Bjorklund, Hugo Samano"
+date: "3/8/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+1. Introduction
+
+1.1 About RNAseq
+
+In our lecture, we have learnt the "why, what and how" on RNAseq. We briefly mentioned about calling differential expressed genes. In this practical, we will use a published RNAseq dataset to call differentially expressed genes and visualize this data.
+
+1.2 About the data
+
+Human embryonic stem cells (hESCs) typically exhibit "primed" pluripotency, analogous to stem cells derived from the mouse post-implantation epiblast. Since primed hESC have limited differentiation capacity, it is desirable to revert "primed" hESCs to a more "naïve" state which have higher pluripotency capacity. These "naïve" hESCs could have various clinical applications and help us to understand the development of early human embryo.
+
+In this practical, we will use the RNAseq dataset from William Pastor et al., 2016, Cell Stem Cell, with 4 replicates of naive hESCs and 4 replicates of primed hESCs.
+```{r echo=FALSE, results='asis'}
+library(knitr)
+atable <- data.frame(Accession = c("GSM2041708", "GSM2041709", 
+                                   "GSM2041710", "GSM2041711", 
+                                   "GSM2041712", "GSM2041713", 
+                                   "GSM2041714", "GSM2041715"),
+                     ID = 1:8,
+                     Replicate = rep(c("rep1", "rep2",
+                                       "rep3", "rep4"), 2),
+                     CellType = c(rep("Primed_hESC", 4),
+                                  rep("Naive_hESC", 4)))
+kable(atable)
+```
+
+2. Installation of DESeq2
+
+In this practical, we will use an R toolkit - DESeq2 to analyze RNAseq data. For more info, please check:https://bioconductor.org/packages/release/bioc/html/DESeq2.html
+
+If you are interested in more tutorials on RNAseq analysis, DESeq2 have this really nice tutorials. A detailed tutorial for DGE can be found here: https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
+
+A fully detailed workflow for RNAseq, including read mapping, can be found here: https://bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html#preparing-quantification-input-to-deseq2
+
+2.1 Installation instructions for DESeq2
+```{r}
+# Enter commands in R (or R studio, if installed)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("DESeq2")
+```
+
+As always, it is important to note the version you are working with. DESeq2 is actively maintained by the developers and continuously being updated. Updated versions may include rather big changes that impact the output.
+
+3. Analyze the data
+
+Before we start this practical, please download the RNAseq count data from Learn blackboard.
+
+> File: naive_primed_hESC_RNAseq_readcount.txt
+
+3.1 Load DESeq2 library
+```{r}
+library(DESeq2)
+```
+
+3.3 Load the data in R
+
+The text file naive_primed_hESC_RNAseq_readcount.txt contains the raw readcount (unnormalized) for each gene of the eight RNAseq samples which include 4 naive hESCs and 4 primed hESCs.
+
+Place the text file in a convenient location and change your working directory to this folder
+
+##### Helpful tips: 
+1. Do not use Chinese in your working directory 
+2. No space or special characters (e.g, -/;) in your directory name
+
+```{r}
+# Change the PATH and un-comment the following line
+# Alternatively, download it from internet.
+# setwd("~/")
+trying <- try(readcount <- read.delim("naive_primed_hESC_RNAseq_readcount.txt"))
+if(is(trying, "try-error")){
+  download.file(url = 
+"https://raw.githubusercontent.com/hugocarlos/public_scripts/master/teaching/naive_primed_hESC_RNAseq_readcount.txt",
+destfile = "naive_primed_hESC_RNAseq_readcount.txt")
+  readcount <- read.delim("naive_primed_hESC_RNAseq_readcount.txt")
+}
+```
+
+3.4 Data quality control for read counts
+
+Before we start our analysis, it’s important to check the quality of the dataset. Key points we should focus include: total coverage (how many counts in total) and number of genes got covered
+
+Let's first check total coverage of the samples:
+
+The last column is the exon length (which we will use for RPKM calculation), so we will ignore it for now by excluding it using  $[,-9]$
+```{r}
+total.cov <- apply(readcount[ ,-9], 2, sum) # Sums read counts column-wise
+barplot(total.cov, las=2, ylab = "log10(total counts over genes)")
+```
+
+From this plot, we can see that the coverage of all those 8 samples are in the same magnitude indicating they got evenly sequenced. So all good, we can move forward.
+
+Then let’s check the number of genes that got covered in each sample:
+```{r}
+#number of genes covered
+#Count all genes with a readcount > 0
+genecovered <- apply(readcount[ ,-9], 2, function(x) sum(x > 0)) 
+barplot(genecovered, las = 2, ylab = "genes covered")
+```
+
+From this plot, we can see that for all 8 samples, about 18k genes have at least one read and the number of detected genes in each library is similar.
+
+3.5 Calculating RPKM
+
+After we are sure that the read count data quality is OK, let’s calculate RPKM. Still remember how to calculate the RPKM?
+
+>RPKM=reads per kilobases per million.
+
+```{r}
+# Let's first calculate RPK
+rpk <- readcount / readcount$exonlength * 10^3
+# Let's initialize the RPKM matrix
+rpkm <- rpk[ ,-9]
+#then let's calcualte RPKM
+for (i in 1:8){
+  rpkm[,i] <- rpk[,i] / total.cov[i] * 10^6
+}
+head(rpkm)
+```
+
+From this dataframe, you can see each column is one RNAseq sample, while each row is one gene. The gene expression level is now normalized for both gene length (by dividing it by the total exon length for each gene in column 9) and sequencing depth (by dividing to total read count over genes in each sample).
+
+3.6 Load data into DESeq2
+
+DESeq2 requires un-normalized counts as input, e.g., from RNA-seq or another high-throughput sequencing experiment, in the form of a matrix of integer values.The values in the matrix should be un-normalized counts or estimated counts of sequencing reads (for single-end RNAseq) or fragments (for paired-end RNA-seq). It is important to provide count matrices as input for DESeq2's statistical model (Love, Huber, and Anders 2014) to hold valid. Only the count values allow the correct assessment of measurement precision correctly. The DESeq2 model internally corrects for library size, so transformed or normalized values such as counts scaled by library size should not be used as input.
+```{r}
+library(DESeq2)
+readcount <- read.table("naive_primed_hESC_RNAseq_readcount.txt",
+                        header = TRUE, row.names = 1)
+configure <- data.frame(condition = factor(c("naive", "naive", "naive", "naive",
+                                             "primed", "primed", "primed", "primed")),
+                        type = c("r1", "r2", "r3", "r4", "r1", "r2", "r3", "r4"))
+(dds <- DESeqDataSetFromMatrix(countData = readcount[ ,-9],
+                               colData = configure,
+                               design = ~ condition))
+# There is no need to add exon length information
+```
+
+3.6 Variance stabilizing transformation and rlog
+
+Clustering, principal components analysis (PCA) and many other common statistical methods for exploratory analysis of multidimensional data work best for data that generally has similar variance. When the variance is approximately the same across different mean values, the data is said to be homoscedastic. For RNAseq counts, the expected variance grows with the mean. If one performs PCA directly on a matrix of counts or normalized counts (e.g., correcting for differences in sequencing depth), the resulting plot typically depends mostly on the genes with highest counts because they show the largest absolute differences between samples.
+```{r echo = FALSE}
+head(assay(dds), 3)
+variance_per_gene <- apply(assay(dds), 1, var)
+mean_count_per_gene <- apply(assay(dds), 1, mean)
+df <- data.frame(genes = row.names(assay(dds)),
+                 mean_counts = mean_count_per_gene,
+                 variance_counts = variance_per_gene)
+library(ggplot2)
+g <- ggplot(df, aes(x = mean_counts, y = variance_counts)) + 
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10() + 
+  geom_abline(slope = 1, col = "red")
+g
+```
+
+This example plot shows the relationship between mean counts and variance of counts
+
+>"To accurately identify DEGs, DESeq2 needs to account for the relationship between the variance and mean. We do not want all of our DEGs to be genes with low counts because the variance is lower for lowly expressed genes."
+https://hbctraining.github.io/DGE_workshop_salmon/lessons/04_DGE_DESeq2_analysis.html
+
+A simple and often used strategy to avoid this is to take the logarithm of the normalized count values plus a pseudocount of 1; however, depending on the choice of pseudocount, now the genes with the very lowest counts will contribute a great deal of noise because taking the logarithm of small counts actually inflates their variance. The logarithm with a small pseudocount amplifies differences when the values are close to 0. The low count genes with low signal-to-noise ratio will overly contribute to sample-sample distances and PCA plots.
+
+As a solution, DESeq2 offers two transformations for count data that stabilize the variance across the mean: the variance stabilizing transformation (VST) for negative binomial data with a dispersion-mean trend (Anders and Huber 2010), implemented in the $vst$ function, and the regularized-logarithm transformation or rlog (Love, Huber, and Anders 2014).
+
+For genes with high counts, both the VST and the rlog will give similar result to the ordinary log2 transformation of normalized counts. For genes with lower counts, however, the values are shrunken towards a middle value. The VST or rlog-transformed data then become approximately homoscedastic (more flat trend in the meanSdPlot), and can be used directly for computing distances between samples using PCA or other downstream methods which perform best with homoscedastic data.
+
+Which transformation to choose? Remember the earlier normalization practical? The VST is much faster to compute and is less sensitive to high count outliers than the rlog. The rlog tends to work well on small datasets (n < 30), potentially outperforming the VST when there is a wide range of sequencing depth across samples (an order of magnitude difference). We therefore recommend the VST for medium-to-large datasets (n > 30). To evaluate the performance of the normalization, you can perform both transformations and compare the meanSdPlot or PCA plots, as described below.
+
+Note that the two transformations offered by DESeq2 are provided for applications other than differential gene expression testing. For DGE we recommend the DESeq function applied to raw counts, as described later in this workflow, which also takes into account the dependence of the variance of counts on the mean value during the dispersion estimation step.
+
+Dispersion accounts for the gene's variance and mean expression level. Dispersion is calculated by $Var = mu + alpha*mu^2$, where $alpha$ represents the dispersion (Var = variance, and mu = mean). When variance increases, dispersion increases. When mean expression increases, dispersion decreases.
+
+Both vst and rlog return a DESeqTransform object which is based on the SummarizedExperiment class. The transformed values are no longer counts, and are stored in the assay slot.
+```{r}
+vsd <- vst(dds, blind = FALSE)
+head(assay(vsd), 3)
+colData(vsd)
+rld = rlog(dds, blind = FALSE)
+head(assay(rld), 3)
+library("dplyr")
+library("hexbin")
+
+
+# The object 'dds' already contains some metadata (it is a DESeqDataSet)
+dds <- estimateSizeFactors(dds)
+
+# How size factors affect the counts
+#plot(sizeFactors(dds), colSums(counts(dds)),
+#     ylim = range(union(colSums(counts(dds)),
+#                        colSums(counts(dds, normalized = TRUE)))))
+#points(sizeFactors(dds), colSums(counts(dds, normalized = TRUE)), col = "red")
+
+df <- bind_rows(
+  as_tibble(log2(counts(dds, normalized = TRUE)[ , 1:2] + 1))
+  %>% mutate(transformation = "log2(x + 1)"),
+  as_tibble(assay(vsd)[ , 1:2]) %>% mutate(transformation = "vst"),
+  as_tibble(assay(rld)[ , 1:2]) %>% mutate(transformation = "rlog"))
+
+colnames(df)[1:2] <- c("x", "y")  
+
+ggplot(df, aes(x = x, y = y)) + geom_hex(bins = 80) +
+  coord_fixed() + facet_grid( . ~ transformation)  
+```
+
+Scatterplot of transformed counts from two samples. Shown are scatterplots using the log2 transform of normalized counts (left), using the VST (middle), and using the rlog (right). While the rlog is on roughly the same scale as the log2 counts, the VST has a upward shift for the smaller values. It is the differences between samples (deviation from $y = x$ in these scatterplots) which will contribute to the distance calculations and the PCA plot.
+
+We can see how genes with low counts (bottom left-hand corner) seem to be excessively variable on the ordinary logarithmic scale, while the VST and rlog compress differences for the low count genes for which the data provide little information about differential expression.
+
+3.7 Sample distance
+
+A useful first step in an RNA-seq analysis is to assess overall similarity between samples: Which samples are similar to each other, which are different? Does this fit to the expectation from the experiment’s design?
+
+We use the R function $dist$ to calculate the Euclidean distance between samples. To ensure we have a roughly equal contribution from all genes, we use it on the VST data. We need to transpose the matrix of values using $t$, because $dist$ function expects the different samples to be rows of its argument, and different dimensions (here, genes) to be columns.
+```{r}
+sampleDists <- dist(t(assay(vsd)))
+sampleDists
+library("pheatmap")
+library("RColorBrewer")
+sampleDistMatrix <- as.matrix(sampleDists)
+colors <- colorRampPalette(rev(brewer.pal(9, "Blues")) )(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows = sampleDists,
+         clustering_distance_cols = sampleDists,
+         col = colors)
+```
+
+From this heatmap, we can see that our 4 replicates in naive and primed hESC cluster together pretty well.
+
+Another way to visualize sample-to-sample distances is a principal components analysis (PCA). In this ordination method, the data points (here, the samples) are projected onto the 2D plane such that they spread out in the two directions that explain most of the differences (see figure below). The x-axis is the direction that separates the data points the most. The values of the samples in this direction correspond to PC1. The y-axis is a direction (it must be orthogonal to the first direction) that separates the data the second most. The values of the samples in this direction are called PC2. The percent of the total variance that is contained in the direction is printed in the axis label. Note that these percentages do not add to 100%, because there are more dimensions that contain the remaining variance (although each of these remaining dimensions will explain less than the two that we see).
+Let's plot PCA for our samples:
+```{r}
+plotPCA(vsd)
+```
+
+3.8 differential expression analysis with DESeq2
+
+Let's do some prefiltering next. While it is not necessary to pre-filter low count genes before running the DESeq2 functions, there are two reasons which make pre-filtering useful: by removing rows in which there are very few reads, we reduce the memory size of the $dds$ data object, and we increase the speed of the transformation and testing functions within DESeq2. Here, we perform a minimal pre-filtering to keep only rows that have at least 10 reads total. Note that more strict filtering to increase power is automatically applied via independent filtering on the mean of normalized counts within the results function.
+```{r}
+dim(counts(dds))
+keep <- rowSums(counts(dds)) >= 10
+dds <- dds[keep, ]
+dim(counts(dds))
+```
+
+From this step, you can see that there is a small difference between before and after the filtering, indicating our data have a quite decent coverage (may not be true for other datasets).
+
+Next, let's call DEGs with DESeq2. Actually, it is really easy because DESeq2 authors have packed all the complex algorithms into a one single function called DESeq(). This step might take couple of minutes.
+```{r}
+dds <- DESeq(dds)
+plotDispEsts(dds)
+res <- results(dds)
+res
+
+```
+
+From the above DESeq2 results you can see that DESeq2 computed the statistics for each gene including
+
+* **baseMean**: the average of the normalized count values, divided by the size factors, taken over all samples in the DESeqDataSet.
+
+* **log2FoldChange**: the effect size estimate. It tells us how much the gene's expression seems to have changed due to treatment with dexamethasone in comparison to untreated samples. This value is reported on a logarithmic scale base 2: for example, a log2 fold change of 1.5 means that the gene's expression is increased by a multiplicative factor of $2^{1.5}$ approx $2.82$.
+
+* **lfcSE**: standard error estimate for the log2 fold change estimate. We can also express the uncertainty of a particular effect size estimate as the result of a statistical test. The purpose of a test for differential expression is to test whether the data provides sufficient evidence to conclude that this value is really different from zero. DESeq2 performs for each gene a hypothesis test to see whether evidence is sufficient to decide against the null hypothesis that there is zero effect of the treatment on the gene and that the observed difference between treatment and control was merely caused by experimental variability (i.e., the type of variability that you can expect between different samples in the same treatment group).
+
+* **pvalue**: the result of this test reported as a p-value. Remember that a p-value indicates the probability that a fold change as strong as the observed one, or even stronger, would be seen under the situation described by the null hypothesis.
+
+* **padj**: padjusted value for p-value by Benjamini-Hochberg method (=FDR)
+
+You can output the data for further use outside R:
+
+```{r}
+write.table(res, file = "hESC_DESeq2_output.txt", sep = "\t")
+```
+
+You can summarize the results with the following line of code, which reports some additional information, that will be covered in later sections.
+
+```{r}
+summary(res)
+```
+
+Note that there are many genes with differential expression due to dexamethasone treatment at the FDR level of 10% (adjusted p-value < 0.1). This makes sense, as the two type of hESCs are quite different. There are two ways to be stricter about which set of genes are considered significant:
+
+* lower the false discovery rate threshold (the threshold on padj in the results table)
+
+* raise the log2 fold change threshold from 0 using the $lfcThreshold$ argument of results
+
+If we lower the false discovery rate threshold, we should also inform the $results()$ function about it, so that the function can use this threshold for the optimal independent filtering it performs:
+```{r}
+res.05 <- results(dds, alpha = 0.05)
+table(res.05$padj < 0.05)
+```
+
+How many genes less did we find by setting the FDR to 0.05?
+```{r}
+summary(res.05)
+```
+If we want to raise the log2 fold change threshold, so that we test for genes that show more substantial expression level changes due to treatment, we simply supply a value on the log2 scale. For example, by specifying $lfcThreshold = 2$, we test for genes that show significant effects of treatment on gene counts more than doubling or less than halving, because 2^2=4.
+```{r}
+resLFC1 <- results(dds, lfcThreshold = 2)
+table(resLFC1$padj < 0.1)
+```
+
+```{r}
+summary(resLFC1)
+```
+
+It is of course also possible to combine the p-value and log2FC threshold:
+```{r}
+resBoth <- results(dds, lfcThreshold = 2, alpha = 0.05)
+summary(resBoth)
+```
+
+3.9 Multiple testing
+
+As we mentioned in the lecture, in high-throughput biology, we need to be careful not to use the p-values directly as evidence against the null, but to correct for multiple testing. What would happen if we were to simply threshold the p-values at a low value, say 0.05? There are 12,151 genes with a p-value below 0.05 among the 18,312 genes for which the test succeeded in reporting a p-value (7 genes failed to yield a p value):
+```{r}
+sum(res$pvalue < 0.05, na.rm = TRUE)
+sum(!is.na(res$pvalue))
+```
+
+Now, assume for a moment that the null hypothesis is true for all genes, i.e., no gene is affected by the treatment with dexamethasone. By definition, we expect up to 5% of the genes to have a p-value below 0.05. This amounts to $18312*0.05 = 916$ genes. If we just considered the list of genes with a p-value below 0.05 as differentially expressed, this list should therefore be expected to contain up to $916 /12151 = 8%$ false positives. In this case, the fraction of false positives doesn't appear to be very high, but remember that these cell types are very different from each other.
+
+DESeq2 uses the Benjamini-Hochberg (BH) adjustment (Benjamini and Hochberg 1995) as implemented in the base R $p.adjust$ function; in brief, this method calculates for each gene an adjusted p-value that answers the following question: if one called significant all genes with an adjusted p-value less than or equal to this gene's adjusted p-value threshold, what would be the fraction of false positives (the false discovery rate, FDR) among them, in the sense of the calculation outlined above? These values, called the BH-adjusted p-values, are given in the column padj.
+
+The FDR is a useful statistic for many high-throughput experiments, as we are often interested in reporting or focusing on a set of interesting genes, and we would like to put an upper bound on the percent of false positives in this set.
+
+Hence, if we consider a fraction of 10% false positives acceptable, we can consider all genes with an adjusted p-value below 5% = 0.05 as significant. How many such genes are there?
+```{r}
+sum(res$padj < 0.05, na.rm = TRUE)
+```
+
+We subset the results table to these genes and then sort it by the log2 fold change estimate to get the significant genes with the strongest down-regulation:
+```{r}
+resSig <- subset(res, padj < 0.05)
+head(resSig[order(resSig$log2FoldChange), ])
+head(resSig[order(resSig$log2FoldChange, decreasing = TRUE), ])
+```
+
+Question: try to save output for those high-confident DEGs (FDR<0.05, |log2FoldChange|>=2).
+
+3.10 Some more data visualization
+
+3.10.1 Count Plot
+
+A quick way to visualize the counts for a particular gene is to use the plotCounts function that takes as arguments the DESeqDataSet, a gene name, and the group over which to plot the counts (figure below).
+```{r}
+topGene <- rownames(res)[which.min(res$padj)]
+plotCounts(dds, gene = topGene)
+d <- plotCounts(dds, gene = topGene, intgroup = "condition", returnData = TRUE)
+# Plotting the MOV10 normalized counts, using the condition (rownames of d as labels)
+library(ggrepel)
+ggplot(d, aes(x = condition, y = count, color = condition)) + 
+  geom_point(position = position_jitter(w = 0.1, h = 0)) +
+  geom_text_repel(aes(label = rownames(d))) + 
+  theme_bw() +
+  ggtitle(topGene) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+3.10.2 MA-plot
+
+An MA-plot (Dudoit et al. 2002) provides a useful overview for the distribution of the estimated coefficients in the model, e.g. the comparisons of interest, across all genes. On the y-axis, the "M" stands for "minus" – subtraction of log values is equivalent to the log of the ratio – and on the x-axis, the "A" stands for "average". You may hear this plot also referred to as a mean-difference plot, or a Bland-Altman plot.
+```{r}
+plotMA(res)
+```
+
+Question: How to read this MA-plot?
+
+Another useful diagnostic plot is the histogram of the p-values (figure below). This plot is best formed by excluding genes with very small counts, which otherwise generate spikes in the histogram.
+```{r}
+hist(res$pvalue[res$baseMean > 1], breaks = 0:20/20,
+     col = "grey50", border = "white")
+```
+
+Question: What conclusion can you get from this plot?
+
+3.10.3 Key gene heatmap
+
+In the sample distance heatmap made previously, the dendrogram at the side shows us a hierarchical clustering of the samples. Such a clustering can also be performed for the genes. Since the clustering is only relevant for genes that actually carry a signal, one usually would only cluster a subset of the most highly variable genes. Here, let us select the 20 genes with the highest variance across samples. We will work with the VST data.
+```{r}
+library("genefilter")
+topVarGenes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), 20)
+mat <- assay(vsd)[topVarGenes, ]
+pheatmap(mat)
+```
+ 
+Question: What scale is this one? How to interpret the data?
+
+```{r}
+mat  <- mat - rowMeans(mat)
+pheatmap(mat)
+```
+
+Question: What scale is this one? How to interpret the data?
+
+Let’s try it with RPKM scale.
+```{r}
+mat  <- rpkm[topVarGenes, ]
+pheatmap(mat)
+pheatmap(log2(mat+1))
+```
+
+Question: What scale is this one? How to interpret the data? Which scale you feel makes more sense?
+
+
+4. Thinking further
+
+So now you have the list of DEGs and you want to know more about what these genes do. What are the functions of those genes? Are they enriched in specific pathways or biological processes?
+
+A simple try is to use the Gene Ontology (GO) tool (http://geneontology.org/), you can directly copy paste the list of your DEGs and launch the GO term analysis. See what you get!

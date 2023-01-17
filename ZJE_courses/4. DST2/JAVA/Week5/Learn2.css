@@ -1,0 +1,61 @@
+button#buttond:hover{
+    background-color: aqua;
+    color: brown;
+}
+
+button#buttond:active{
+    color: blue;
+    font-style: italic;
+}
+
+button#buttond:focus{
+    color: darkgreen;
+    font-weight: bold;
+    background-color: gray;
+}
+body{
+    margin: 10px auto 10px auto;
+}
+ul.example{
+    text-align: center;
+    margin: 100px auto 100px auto;
+    border: 15px solid #0088dd;
+    width: 300px;
+}
+img.align-center{
+    display: block;
+    margin: 0px auto 0px auto;
+}
+p{
+    text-align: center;
+}
+table{
+    width: 500px;
+    height: 200px;
+    font-size: 32px;
+    margin: 10px auto 10px auto;
+    empty-cells: show;
+}
+th, td{
+    padding: 10px 10px 10px 10px;
+}
+th.col{
+    text-align: left;
+    border-bottom: 8px solid red;
+    border-top: 8px solid green;
+}
+tr.ZM, tr.GML{
+    background-color: bisque;
+}
+th#DXZ, th#LJZ, th#ZM, th#GML{
+    text-align: left;
+}
+*{
+    background-color: antiquewhite;
+}
+li.hot, i.hot{
+    background-color: aqua;
+}
+li.cool{
+    background-color: darkgreen;
+}

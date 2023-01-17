@@ -1,0 +1,171 @@
+Name,Country,Gender,Age,Time
+Benjamin Reifenberg,USA,M,24,2.77
+Greg Humrichouser,USA,M,33,2.81
+Stephen Peck,CAN,M,38,2.9
+Rodrigo Llaguno,MEX,M,39,2.95
+Octavio Hoyos,MEX,M,41,3.08
+Kenneth Mcwilliams,USA,M,47,3.29
+Roger Ortega,USA,M,41,3.3
+Albert Navarro Garcia,ESP,M,38,3.31
+Jason Smith,USA,M,37,3.48
+Patrick Flattery,USA,M,23,3.48
+Josh Folkerts,USA,M,23,3.48
+Russell Glor,USA,M,31,3.51
+Mario Hime,BRA,M,42,3.6
+Andreas Krone,GER,M,52,3.6
+Tony Dreibus,USA,M,39,3.63
+Brandon Rux,USA,M,30,3.66
+Blair Jameson,CAN,M,52,3.69
+Ken Wang,USA,M,35,3.73
+Christian Roy,CAN,M,45,3.74
+Mariano Volpedo,ARG,M,42,3.75
+Ryan Downey,USA,M,38,3.78
+Cal Constantino,BRA,M,35,3.78
+Adam Tobler,USA,M,29,3.79
+Mark Cairney,USA,M,42,3.82
+Robert Farrell,USA,M,49,3.85
+Michael Moles,USA,M,23,3.87
+Matt Kuffel,USA,M,29,3.9
+Tinh Ha,USA,M,40,3.91
+Evan Miller,USA,M,30,3.95
+Adam Ledet,USA,M,26,3.96
+Francisco Escamilla,USA,M,49,4.03
+Andrew Lavey,USA,M,26,4.07
+David Doyle,USA,M,39,4.13
+Thomas Vogelhuber,USA,M,28,4.17
+David Carpenter,USA,M,42,4.22
+Anthony Hume,USA,M,49,4.23
+John Tomaszewski,USA,M,37,4.26
+Thom Ingram,USA,M,40,4.3
+Bernardo Lozano Elizondo,MEX,M,42,4.38
+Alberto Quant,GUA,M,47,4.4
+Juan Soto,MEX,M,36,4.4
+William Czeschin,USA,M,26,4.43
+Brock Mettz,USA,M,37,4.51
+John Angier,GBR,M,37,4.54
+Ryan Scott,USA,M,33,4.56
+Juan Silva Garcia,USA,M,32,4.56
+Anthony Delia,USA,M,45,4.56
+Chris Gerber,USA,M,53,4.57
+Michael Gordon,USA,M,59,4.63
+Brian Gore,USA,M,32,4.63
+Mark Adams,USA,M,37,4.65
+James Callham,USA,M,48,4.65
+Josiah Ballantine,USA,M,21,4.66
+Antony Masters,GBR,M,39,4.69
+Michael Baldwin,USA,M,41,4.77
+Santiago Galli,ARG,M,43,4.81
+Steve Ashburn,USA,M,53,4.81
+Randy Medina,USA,M,41,4.98
+Steven Tess,USA,M,38,4.99
+Daniel Donovan,USA,M,59,5.05
+Rene Saldana,MEX,M,30,5.11
+Rodell Noriega,TRI,M,27,5.12
+Alejandro Hernandez,USA,M,43,5.19
+Tom Knorr,USA,M,51,5.23
+David Mikulecky,USA,M,29,5.24
+Derek Pollard,USA,M,38,5.26
+Alejandro Perez,URU,M,48,5.4
+Alexander Alwine,USA,M,19,5.42
+Brian Souliere,USA,M,39,5.44
+Hugh Hamilton,USA,M,55,5.44
+Glenn F Saunders,CAN,M,47,5.59
+Andy Woo,USA,M,30,5.61
+Jeffrey West,USA,M,48,5.63
+John Sviokla,USA,M,30,5.75
+Stephen Moro,CAN,M,46,5.76
+Shaun Kolacz,USA,M,30,5.78
+Hartley Dennis,USA,M,52,5.8
+James Burkhardt,USA,M,45,5.94
+Sam Crawford,USA,M,27,5.94
+Daniel Jones,CAN,M,25,5.96
+Ferman Williams,USA,M,63,6.03
+Brian Aguilar,USA,M,31,6.08
+Robert Becker,USA,M,52,6.3
+Ariel Sanchez Espinoza,MEX,M,47,6.44
+Jonathon Kaehn,USA,M,26,6.55
+Annie Wang,USA,F,33,4.49
+Marie Helene Turgeon,USA,F,43,3.71
+Jessica Kelliher,USA,F,25,4.84
+Amanda Mossman,USA,F,27,6.35
+Maite Madrazo Vega,MEX,F,27,5.07
+Rashada Cherry,USA,F,37,5.46
+Patricia King,USA,F,46,5.21
+Emily Slavik,USA,F,24,4.99
+Jennifer Tse,USA,F,22,4.91
+Lianne Martin,USA,F,31,5.31
+Heather Stephenson ,USA,F,26,4.86
+Kathryn Seifert,USA,F,33,3.84
+Christine Kareka,USA,F,36,4.6
+Gina Wong,CAN,F,31,3.14
+Rachel Burke,USA,F,29,3.58
+Gwen Talaski,USA,F,39,3.6
+Pilar Arana,PER,F,49,3.68
+Kathleen Grupp,USA,F,43,3.77
+Heather Larsen,CAN,F,36,3.81
+Lisa Naski,USA,F,31,3.83
+Donna Sawchyn,CAN,F,53,3.88
+Juliana De Moraes,BRA,F,40,3.88
+Meghan Milligan,USA,F,23,3.89
+Tammy Kominek,USA,F,44,3.9
+Rosa Gomez,MEX,F,37,3.95
+Carla Snyder,USA,F,27,3.97
+Monica Solis,USA,F,38,3.97
+Adriel Egner,USA,F,22,4
+Kristine Gavin,USA,F,25,4.07
+Erin Ryan,USA,F,30,4.09
+Stephanie Schultz,USA,F,42,4.1
+Jessica Hunn,USA,F,35,4.19
+Jacqueline Weber,USA,F,40,4.19
+Hana Bernstein,USA,F,28,4.2
+Lynne Triplett,USA,F,49,4.33
+Catherine Braund,USA,F,50,4.33
+Carrie Kravitz,USA,F,31,4.34
+Lyn Filbey,USA,F,31,4.42
+Elizabeth Haas,USA,F,32,4.43
+Flavia Caspary,BRA,F,40,4.48
+Liz Marziello,USA,F,39,4.49
+Laura Brunner,USA,F,26,4.52
+Ileana Fernandez,CRI,F,48,4.62
+Emily Florez,USA,F,28,4.65
+Karen Lee,USA,F,39,4.7
+Diana Sorich,USA,F,43,4.74
+Natalie Hackett,USA,F,29,4.78
+Stefanie Murauskas,USA,F,31,4.79
+Julie Dorion,USA,F,38,4.79
+Kimberly Lenkeit,USA,F,22,4.88
+Carla Bouck ,USA,F,47,4.89
+Katheryn Starr,USA,F,50,5
+Tracy Hammond,USA,F,50,5.13
+Rechel Francisco ,USA,F,28,5.16
+Stephanie Johnson,USA,F,31,5.18
+Katy Ludwig,USA,F,40,5.28
+Inge Leblanc,USA,F,40,5.29
+Jessica Crockett ,USA,F,31,5.3
+Rebecca Schnulle,USA,F,35,5.3
+Sonia Diaz,USA,F,32,5.3
+Amy Mabery,USA,F,27,5.33
+Shameika Daye ,USA,F,30,5.34
+Marla Clayman,USA,F,40,5.36
+Teri Skibowski,USA,F,49,5.43
+Laura Norris ,USA,F,29,5.47
+Andrea Rubin,USA,F,39,5.49
+Krista Curcio,USA,F,42,5.5
+Thanaporn Lorchirachoonkul,AUS,F,40,5.57
+Tonya Jones,USA,F,40,5.58
+Jessica Thrower,USA,F,28,5.58
+Brianne Sweetland,USA,F,31,5.61
+Nancy Oh,USA,F,41,5.65
+Myrna Garcia,USA,F,29,5.67
+Melanie Grace Cariaso,USA,F,44,5.7
+Nancy Weinberg,USA,F,45,5.7
+Rachel Moore,USA,F,28,5.74
+Crystal Vasquez ,USA,F,50,5.75
+Cheryl Mahabir,CAN,F,44,5.93
+Lauren Kunes,USA,F,24,6.02
+Crystine Snyder,USA,F,45,6.04
+Jasmine Vattakattu,USA,F,28,6.05
+Brenda Newton,USA,F,54,6.25
+Mellissa Mucha,USA,F,38,6.55
+Kelly Kennoy,USA,F,48,6.63
+Molly Mosier,USA,F,28,6.73

@@ -1,0 +1,57 @@
+---
+title: "Mouse report"
+author: "MI Stefan"
+date: "Semester 1, 2020/21"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+# Introduction
+
+This is the monthly mouse report, based on data collected by the lab assistant, Dr. Lu.
+
+```{r, echo=FALSE}
+mouse_report <- read.csv("mouse_report.csv")
+```
+
+# Overall statistics 
+
+Total number of mice: `r nrow(mouse_report)` 
+
+## Weight
+
+```{r echo=FALSE}
+summary(mouse_report$weight)
+```
+
+## Weight by genotype
+
+```{r echo=FALSE}
+ggplot(data=mouse_report,aes(x=genotype, y=weight)) +
+  geom_boxplot(outlier.shape=NA) + 
+  geom_jitter() +
+  aes(col=genotype)
+```
+
+## Age
+
+```{r, echo=FALSE}
+summary(mouse_report$age)
+```
+
+
+
+
+## Age by genotype 
+
+
+```{r echo=FALSE}
+ggplot(data=mouse_report,aes(x=genotype, y=age)) +
+  geom_boxplot(outlier.shape=NA) + 
+  geom_jitter() +
+  aes(col=genotype)
+```

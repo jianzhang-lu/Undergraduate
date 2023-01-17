@@ -1,0 +1,32 @@
+---
+title: "P13"
+author: "Lu Jianzhang"
+date: "2021/12/6"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1 Text editing in R markdown
+
+## 1.1 How do you create a section headline?    
+
+**How do you make text bold face?**\
+[How to include a link to a website](www.rstudio.com)\
+I am the *best* student.
+
+-   Prepare tutorial
+-   Go to class
+-   Revise lecture
+-   Finish ICA report
+
+1.  Eat breakfast
+2.  Eat lunch
+3.  *Eat dinner*
+4.  Sleep
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```

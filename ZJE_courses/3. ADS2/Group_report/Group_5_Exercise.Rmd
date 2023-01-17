@@ -1,0 +1,399 @@
+---
+title: "ADS2 Group Exercise ICA"
+author: 'Group 3'
+date: "3/4/2022"
+output: 
+  pdf_document: 
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Load the libraries
+
+```{r libraries loading, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(tidyverse)
+library(paletteer)
+```
+
+
+# Load the Dataset 
+
+```{r dataset loading}
+malaria <- read.csv("malaria.csv")
+head(malaria, 3)
+```
+
+
+
+# Clean the Data
+
+Firstly, we choose to explore the dataset and clean the data, since this step will benefit following analysis. 
+
+## Missing values
+
+Deal with NA values and empty entries
+
+```{r missing values}
+anyNA(malaria)
+sum(malaria[ , ] == "")
+```
+
+There is no missing values in the dataset. So we do not need to remove lines.
+
+
+## Duplicates in the data
+
+Check for duplicates 
+
+```{r duplicates}
+which(duplicated(malaria))
+```
+
+There is no duplicate in the dataset. So we do not need to remove lines.
+
+
+## Typos and Naming schemes
+
+Test the consistency of naming scheme of some columns and whether there are some typos
+
+&nbsp;
+
+See the structure of the whole dataset first
+
+```{r structure}
+str(malaria)
+```
+
+```{r location}
+# location column
+table(malaria$location)
+malaria$location <- gsub(' - WB', '', malaria$location) # delete ' - WB' part
+table(malaria$location)
+```
+
+```{r age}
+# age column
+table(malaria$age)
+malaria[malaria$age == '50 to 74 years', 'age'] <- '50-74 years' # replace 'to' with '-'
+table(malaria$age)
+```
+
+
+## Factoring _age_ column
+
+After checking the whole structure of this dataset, we want to turn _age_ column into factor, in order to benefit the following plotting step. 
+
+```{r factoring}
+malaria <- malaria %>% mutate(age = factor(age, 
+           levels = c('Under 5','5-14 years', '15-49 years','50-74 years','75 plus')))
+```
+
+
+## Outliers & Strange Patterns
+
+We wonder whether the data has outstanding outliers or strange distribution patterns. So we decide to plot the number of cases against different factors to explore and examine. 
+
+```{r deaths vs location}
+# deaths vs location
+min_year <- min(malaria$year)
+max_year <- max(malaria$year)
+
+ggplot(malaria) + 
+  geom_bar(stat='identity', aes(x=year, y=val, fill=location)) +
+  scale_fill_paletteer_d("RColorBrewer::Pastel2") +
+  xlab("Year") + 
+  ylab("Number of Deaths") +
+  ggtitle(paste("Number of Deaths from Malaria ", "in Different Regions in ",
+                min_year,"-", max_year, sep = ''))
+
+```
+
+We can see that the great majority of deaths of malaria happened in Sub-Saharan Africa, followed by South Asia. However, with no additional information about the malaria cases, we decided to leave the data unchanged.
+
+```{r deaths vs age}
+# deaths vs age
+ggplot(malaria) + 
+  geom_bar(stat='identity', aes(x=year, y=val, fill=age)) +
+  scale_fill_paletteer_d("ggthemes::Miller_Stone") + 
+  xlab("Year") + 
+  ylab("Number of Deaths") + 
+  ggtitle("Number of Deaths from Malaria in Different Age Groups")
+
+```
+
+We can see that the majority of deaths from malaria happened in age group "Under 5". However, with no additional information about the malaria cases, we decided to leave the data unchanged.
+
+
+
+# Part 1: Exploring the data
+
+In this part, we will answer the questions given in the guidance. 
+
+## Question 1 Plotting the number of deaths
+
+__Question:__ Plot the number of deaths from malaria between 2000 and 2019 for each of the age groups for the East Asia and Pacific region. What age group seems to have the highest number of cases, and why do you think that is?
+
+&nbsp;
+
+To solve this problem, firstly we need to extract data of the East Asia and Pacific region from the original dataset. 
+
+```{r subregion}
+subregion <- malaria %>% 
+  filter(location == 'East Asia & Pacific') %>%
+  mutate(age=factor(age, levels=c('Under 5','5-14 years', 
+                                  '15-49 years','50-74 years','75 plus')))
+head(subregion, 2)
+```
+
+Then we can plot the data depending on the time and age groups. 
+
+```{r line chart}
+ggplot(subregion, aes(x = year, y = val, group = age)) + 
+  geom_line(aes(color = age)) + 
+  xlab("Year") + 
+  ylab("Number of Deaths") + 
+  ggtitle(paste("Number of Malaria Deaths ", "in East Asia & Pacific Region in ",
+                min_year, "-", max_year, sep = ''))
+
+```
+
+As we can see from the results, it seems that the age group "15-49 years" always have the highest number of cases which died from malaria in every year between 2000 and 2019. 
+
+It may because that this group have the largest population compared with other age groups. Also, it is possible that this age group is optimal labour force, so they are more likely to get in touch with other people, so it have higher probability to get infected by malaria. 
+
+
+## Question 2 Total number of malaria cases
+
+__Question:__ In which year was the total number of malaria cases (across all regions and age groups) the highest? In which year was it the lowest?
+
+&nbsp;
+
+To solve this problem, we can transformed the data set, summarized number of deaths grouped by year.
+
+```{r transformation 1}
+malaria_year <- malaria %>% 
+  group_by(year) %>% 
+  summarise(val=sum(val))
+head(malaria_year, 3)
+
+malaria_max <- malaria_year[malaria_year$val == max(malaria_year$val), 'year']
+malaria_min <- malaria_year[malaria_year$val == min(malaria_year$val), 'year']
+
+# Conclusion 1
+print(paste("Total number of malaria cases was highest in", malaria_max))
+# Conclusion 2
+print(paste("Total number of malaria cases was lowest in", malaria_min))
+```
+
+This can also be verified by visualizing the number of total death each year. 
+
+```{r verification plotting}
+ymax <- malaria_year[malaria_year$year == malaria_max$year, "val"]
+ymin <- malaria_year[malaria_year$year == malaria_min$year, "val"]
+  
+ggplot(malaria_year) + 
+  geom_bar(stat='identity', aes(x=year, y=val), fill="lightblue") + 
+  xlab("Year") + 
+  ylab("Number of Deaths") + 
+  ggtitle(paste("Total Number of Deaths from Malaria ", 
+                min_year, "-", max_year, sep = '')) + 
+  geom_hline(col = "red", linetype = "dashed", yintercept = ymax$val) + 
+  geom_hline(col = "red", linetype = "dashed", yintercept = ymin$val)
+
+```
+
+
+## Question 3 Percentage of deaths in certain region
+
+__Question:__ What percentage of total Malaria deaths in 2010 happened in the Latin America and Carribean region? 
+
+&nbsp;
+
+To solve this problem, we can transformed the data set, summarized number of deaths in 2010 grouped by location.
+
+```{r transformation 2}
+malaria_location <- malaria %>% 
+  filter(year == "2010") %>% 
+  group_by(location) %>% 
+  summarise(val=sum(val))
+head(malaria_location, 2)
+```
+
+Then we can choose total Malaria deaths happened in the Latin America and Carribean region.
+
+```{r choose deaths}
+malaria_latin_cari <- malaria_location %>% 
+  filter(location=='Latin America & Caribbean')
+malaria_latin_cari
+
+total_val <- sum(malaria_location$val)
+total_val
+
+# Conclusion
+print(paste("About ", round(100*malaria_latin_cari$val/total_val, digits = 2), 
+            "% of total Malaria deaths in 2010 happened ", 
+            "in the Latin America and Carribean region.",
+            sep = ""))
+```
+
+
+
+# Part 2: Ask our own question
+
+In this part, we will ask one question that we wonder, and choose a suitable method to use the data provided to answer it. 
+
+## The question we want to ask
+
+__Question:__ Is there a significant difference in the percentage of people dying from malaria each year in the Middle East and North Africa? 
+
+This percentage refers to the number of deaths of that region in that year/the total number of deaths of that region in all years. 
+
+__Why we are interested in this question:__
+TO be continued.....
+
+## Problem sovling process
+
+Since we want to test whether there is a real difference between two samples, we have to formulate our hypothesis first. 
+
+**Null Hypothesis:** There is no significant difference of percentage of malaria deaths between any two years in Middle East & North Africa region.
+
+**Alternate Hypothesis:** The differences of percentage of malaria deaths in Middle East & North Africa region are significant at least in two years.
+
+&nbsp;
+
+__Step1:__ Before using any statistical tests, we want to first plotted the percentage of deaths each year in Middle East & North Africa.
+
+```{r choose the data}
+# Malaria deaths (integer) in Middle East & North Africa
+malaria_ME_NA <- malaria %>% filter(location == 'Middle East & North Africa') %>%
+                 group_by(year) %>% summarise(val=sum(val))
+
+malaria_ME_NA$val <- as.integer(malaria_ME_NA$val) # change to integer format
+head(malaria_ME_NA, 3)
+
+total_death <- sum(malaria_ME_NA$val) # total death over the years
+total_death
+```
+
+```{r plot deaths}
+# plot the percentage of deaths each year 
+p5 <- ggplot(malaria_ME_NA) + geom_bar(stat = 'identity', aes(x=year, y=val/total_death))
+p5 <- p5 + xlab('Year') + ylab('Percentage of Deaths every year')
+p5 <- p5 + ggtitle(paste("Number of Malaria Deaths in Middle East & North Africa in ", 
+                min_year, "-", max_year, sep = ''))
+p5
+```
+
+From the plot we can roughly observe a decreasing trend of the percentages of deaths. But wait, is there really a difference between, for example, percentages of death in 2005 and 2010, or is this kind of variation just caused by chance?
+
+&nbsp;
+
+__Step2:__ To address this question, we decided to adopt a bootstrap test.
+
+The type of bootstrapping method we choose is _Case resampling_ approach. 
+
+```{r bootstrapping}
+# Bootstrapping for each year
+quantiles.total <- c()
+for (y in malaria_ME_NA$year) {
+  current_death <- malaria_ME_NA %>% filter(year == y) %>% select(val) %>% .$val
+  boot.year <- c(rep(1, current_death), rep(0, total_death-current_death))
+  year.boot.1000 <- replicate(100, mean(sample(boot.year, size = total_death, replace = T)))
+  quantiles.total <- c(quantiles.total, quantile(year.boot.1000, c(0.025, 0.975)))
+}
+head(quantiles.total, 5)
+
+# Write down the bootstrapping results
+matrix.quantile <- matrix(data = quantiles.total, nrow = length(quantiles.total)/2, 
+                          ncol = 2, byrow = T)
+
+df.quantile <- as.data.frame(matrix.quantile)
+df.quantile$year <- malaria_ME_NA$year
+df.quantile$perc <- malaria_ME_NA$val/total_death
+head(df.quantile)
+```
+
+__Step3:__ Visualize the 95% confidence interval data to check the differences between groups
+
+```{r confidence interval}
+# Visualization
+ggplot(df.quantile) + geom_point(aes(x=year, group=year, y=perc)) +
+  geom_errorbar(aes(x=year, ymin=V1, ymax=V2), width=0.3) + 
+  xlab('Year') + 
+  ylab('Percent of Total Deaths') + 
+  ggtitle(paste("Percentage of Malaria Deaths in Middle East & North Africa in ", 
+                min_year, "-", max_year, sep = '')) + 
+  scale_x_continuous(breaks = seq(min_year, max_year, 1)) +
+  theme(plot.title = element_text(hjust=0.5), 
+        axis.text.x = element_text(angle=90, hjust=1))
+```
+
+
+## Interpretion of results
+
+As we can see from above plot, we have sufficient evidence to reject H0. That is, the differences in percentage deaths from malaria in the Middle East & North Africa region are significant **between some two years.**
+
+We would expect the 95% confidence intervals drawn above to be non-overlapping for groups which are significantly different from each other, such as in 2008 and 2009. Therefore, there is a significant difference for the percentage of Malaria deaths between 2008 and 2009. Additionally, there is no significant difference between 2000 and 2001 since they have overlaps during the 95% confidence intervals.
+
+
+
+
+########### Method 2###################
+```{r}
+malaria_SSA <- malaria %>% filter(location == 'Middle East & North Africa')
+malaria_SSA$year <- as.numeric(malaria_SSA$year)
+age_list <- unique(malaria_SSA$age)
+malaria_age_list <- list()
+for(index in 1:length(age_list)){
+  malaria_age_list[[index]] <- filter(malaria_SSA, age == age_list[index])
+}
+total_death_list <- malaria_SSA %>% group_by(age) %>% summarise(val=sum(val))
+
+ages <- c()
+
+years <- c()
+percents <- c()
+uppers <- c()
+lowers <- c()
+
+for(i in 1:length(malaria_age_list)){
+  data <- malaria_age_list[[i]]
+  ages <- c(ages, data$age)
+  total_death <- total_death_list$val[i]
+  data$percent <- data$val/total_death
+  for(y in data$year){
+    years <- c(years, y)
+    percents <- c(percents, data[data$year == y, 'percent'])
+    current_death <- data %>% filter(year == y) %>% .$val
+    boot_pool <- c(rep(1, current_death), rep(0, total_death-current_death))
+    boot_results <- c()
+    for(i in 1:10){
+      boot_sample <- sample(boot_pool, length(boot_pool), T)
+      boot_results <- c(boot_results, mean(boot_sample))
+    }
+    uppers <- c(uppers, quantile(boot_results, 0.975))
+    lowers <- c(lowers, quantile(boot_results, 0.025))
+  }
+}
+
+overall_result <- data.frame('age'=age_list[ages],
+                             'year'=years,
+                             'percent'=percents,
+                             'upper'=uppers,
+                             'lower'=lowers)
+                    
+ggplot(overall_result) +
+  geom_point(aes(x=year, y=percent)) +
+  geom_errorbar(aes(x=year, ymin=lowers, ymax=uppers), width=0.3) +
+  facet_wrap(~age) +
+  scale_x_continuous(breaks = seq(min_year, max_year, 1)) +
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.5))
+```
+
+
+

@@ -1,0 +1,109 @@
+---
+title: "2021ADS2 Week11 T test: varaints and applicaiton"
+author: "by Xianghua Li, xianghuali@intl.zju.edu.cn"
+date: '2020-11-18'
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### 1. Introduction
+This R Markdown file contains a tutorial of how to do different form of t test manually and in R. For those problems that need to workout manually, please include the formula and process of how you get the final number.
+
+### Excersie 1. 
+The pathogen Phytophthora capsici causes bell peppers to wilt and die. Because bell peppers are an important commercial crop, this disease has undergone a great deal of agricultural research. It is thought that too much water aids the spread of the pathogen. Two fields are under study. The first step in the research project is to compare the mean soil water content for the two fields. Units are percent water by volume of soil.
+
+1)   Field A:   10.2  10.7  15.5  10.4  9.9  10.0  16.6  15.1  15.2  13.8  14.1  11.4  11.5  11.0
+2)   Field B:   8.1  8.5  8.4  7.3  8.0  7.1  13.9  12.2  13.4  11.3  12.6  12.6  12.7  12.4  11.3  12.5
+
+Use a 5% level of significance to test the claim that field A has, on average higher soil water content than field B.
+
+#### 1.1 looking at the distribution of the data
+```{r Water content 1}
+Field_A<- c(10.2,  10.7,  15.5,  10.4 , 9.9,  10.0,  16.6,  15.1,  15.2,  13.8,  14.1 , 11.4 , 11.5 , 11.0)
+Field_B<-  c( 8.1,  8.5,  8.4 , 7.3,  8.0,  7.1,  13.9 , 12.2,  13.4,  11.3,  12.6 , 12.6,  12.7 , 12.4 , 11.3,  12.5)
+
+hist(Field_A)
+hist(Field_B) 
+
+
+```
+
+The data shows bimodal distributions, which is NOT a normal distribution. 
+Therefore, Xianghua decides that she should perform the a non-parameteric test. 
+
+#### 1.2 Which parameters shall we use? 
+1)  Ho: Field A does NOT have higher soil water content than Field B. 
+2)  Ha: Feild A has higher soil has higher soil water content than Field B. 
+3)  Therefore, we should perform a 1-tail test with the 'alternative' parameter set as 'greater'.
+4)  The two fields are not paired, therefore we perform an unpaired test. 
+
+```{r Water content 3}
+wilcox.test(Field_A, Field_B, alternative = 'greater',paired = F ) 
+```
+
+Conclusion: We cannot reject the null hypothesis with the the a 5% significance since p-value> 0.05. Field A does not have higher water content compared to the Field B with the the a 5% significance.   
+
+### 2. two sample t test
+#### 2.1 looking at the distribution of the data
+```{r Mice weights 1}
+
+mice_data= read.csv('mice_weights.txt')
+
+head(mice_data)
+summary(mice_data)
+
+# Option 1, judge by eyes based on the density plot 
+
+library(ggplot2)
+ggplot(data=mice_data) + 
+  geom_line(aes(x=before, col='before'), stat='density') + 
+  geom_line(aes(x=after,col='after'), stat='density') + theme_classic()
+
+# Option 2, judge by eyes based on the Q-Q plot 
+# This is another neat visualization methods to examine whether the distribution is different from the normal distribution. 
+
+library(ggpubr) 
+ggqqplot(mice_data$before) # Q-Q plot (quantile-quantile plot) compares your distriubtion with the theoretical normal distribution. 
+ggqqplot(mice_data$after) # Q-Q plot (quantile-quantile plot) compares your distriubtion with the theoretical normal distribution. 
+
+# Option 3, use Shapiro test
+
+shapiro.test(mice_data$before)
+shapiro.test(mice_data$after) 
+# What do you think? 
+# Can we claim in this case that the distribution is normal? 
+# What are your reasons? 
+
+```
+You don't need to try all three options to test normality. Here, I am only to show you that all these methods are possible. You could choose one of them and argue your choice. 
+
+Judging by eyes (Option 1 or Option 2), you may argue that the data is approximately normally distributed. 
+
+Alternatively, you could use the statistical test (Shapiro test) to show that we could not claim that the data distribution is NOT normal with 5% significance. 
+
+Therefore, Xianghua decides to use the t-test. 
+
+#### 2.2 Performing the t-test. 
+1) Ho: The treatment does not have an effect on the mice weights. 
+2) Ha: The treatment has an effect on the mice weights
+3)  Therefore, we should perform a 2-tail t-test.  
+4)  We are comparing before and after treatment, therefore we perform a unpaired t-test. 
+
+```{r Mice weights 2 }
+# Are the variance same or different? 
+var.test(mice_data$before, mice_data$after) 
+t.test(mice_data$before, mice_data$after, paired = TRUE, var.equal=TRUE)
+
+```
+
+The conclusion: The treatment increased the mice weights with 5% significance threshold. 
+
+
+
+#### R Markdown
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
