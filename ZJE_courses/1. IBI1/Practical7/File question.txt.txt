@@ -1,0 +1,6 @@
+The question:
+Are there places in the World where there have not yet been more than 10 total infections (as of 31 March). If so, where are they?
+
+The code is started at 55th row and finished at 72 raw. This question is a little bit difficult. Because we need to know the number and the name of countries. The number is easy to get. From the code, in 195 countries, we can see that they are only 42 countries had less infections. Therefore, the epidemic situation was serious. Only very small countries or distant countries have less inflections. The countries are here: 
+Angola    Anguilla    Antigua and Barbuda    	Belize    Benin    Bhutan    British Virgin Islands    Cape Verde    Central African    Republic    Chad    Falkland Islands    Fiji    Gabon       Gambia    Greenland    Grenada    Guinea-Bissau    Guyana    Laos    Liberia    Libya    Mariana Islands    Mauritania    Montserrat    Mozambique    Nepal    Nicaragua    Papua New Guinea    Saint Kitts and Nevis    Saint Lucia    Saint Vincent and the Grenadines    Seychelles    Somalia    South    Sudan    Suriname   Swaziland    Syria    Timor    Turks and Caicos Islands    VaticanZimbabwe
+

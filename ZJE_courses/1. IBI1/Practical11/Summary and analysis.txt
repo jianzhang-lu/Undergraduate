@@ -1,0 +1,16 @@
+Findings:
+The percentage of identical amino acids between random and human is: 5.405405405405405%
+The percentage of identical amino acids between random and mouse is: 5.85585585585585%
+The percentage of identical amino acids between mouse and human is: 89.63963963963964%
+
+The score between mouse and human is: 1091
+The score between mouse and random is: -250
+The score between random and human is: -250
+
+Analysis: The high alignment score and percentage of identical amino acids of human and mouse group shows that human and 
+mouse SOD2 sequences are highly similar, which means that SOD2 protein is highly conserved between different species. Therefore, 
+SOD2 maybe a kind of housekeeping protein. That is, the function of SOD2 protein is important for both mouse and human and it may 
+participant in a basic function such enzyme for transport and energy production. The protein is not specific in one species, it is necessary
+ in both mouse and human body. Additionally, we can see that the percentage and score for human-random or mouse-random are 
+much lower. That shows the similarity of SOD2 is not just because of the chance.
+
