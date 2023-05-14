@@ -1,148 +1,48 @@
 library(tidyverse)
 library(ggsignif)
-se <- function(x){
-  sd(x)/sqrt(length(x))
-}
+library(ggpubr)
 
-data <- read.csv("D:/R_document/实验室/RNA_relative/datalab.csv")
-colnames(data)[1] <- "Group"
-data[3:9] <- 2^(-data[3:9])
-data2 <- data
-data3 <- data
-data2$Group <- factor(data2$Group, levels = c("2M","14M"))
+# 1. 预处理
+data <- read.csv("Lab/qPCR/qPCR_SRTP.csv", sep = '\t')
+colnames(data)[3] <- "18S"
+data$Group <- factor(data$Group, levels = c("gControl", "gSMAD4"))
 
-mean_index <- c()
-for(i in 3:9){
-  smean <- mean(data[,i][1:4], na.rm = T)
-  mean_index <- c(mean_index, smean)
-}
+## 两种内参分别处理
+data <- na.omit(data[, c(1, 3, 4)])
 
-for(j in 3:9){
-  for(i in 1:4){
-    data2[,j][i+4] <- data2[,j][i+4]/mean_index[j-2]
-    data2[,j][i] <- data2[,j][i]/mean_index[j-2]
-    }
-}
+# 2. 先分别取control和treatment组的内参
+control <- filter(data, Group == 'gControl')
+exper <- filter(data, Group == 'gSMAD4')
+control_internal <- control$`18S`
+exper_internal <- exper$`18S`
 
-sdata <- list()
-for(i in 1:7){
-  sdata[[i]] <- data.frame("Group" = c("2M", "14M"), 
-                        "value" = c(mean(data2[,i+2][1:4], na.rm = T), mean(data2[,i+2][5:8], na.rm = T)))
-  sdata[[i]]$Group <- factor(sdata[[i]]$Group, levels = c("2M","14M"))
-}
+# 3. 计算δCT: 目的基因CT值-对应的内参CT值
+control$AIM2 <- control$AIM2 - control_internal
+exper$AIM2 <- exper$AIM2 - exper_internal
 
-p_value <- list()
-for(i in 1:7){
-  p_value[[i]] <- t.test(data2[,i+2][1:4], data2[,i+2][5:8])$p.value
-}
+# 4. 计算2^-δCT
+control$AIM2 <- 2^(-control$AIM2)
+exper$AIM2 <- 2^(-exper$AIM2)
 
-se1 <- list()
-se2 <- list()
-for(i in 1:7){
-  se1[[i]] <- se(na.omit(data2[,i+2][1:4]))
-  se2[[i]] <- se(na.omit(data2[,i+2][5:8]))
-}
+# 5. 对照组2^-δCT取均值得到mean 2^-δCT
+mean_delta_CT <- mean(control$AIM2)
 
-sd(data2$PLAU[1:4])
-sd(data2$PLAU[5:8], na.rm = T)
-power.t.test(delta = abs(mean(data2$PLAU[1:4], na.rm = T)-mean(data2$PLAU[5:8], na.rm = T)),
-             sig.level = 0.05,
-             power = 0.8,
-             type = "two.sample",
-             sd = 1.849668,
-             alternative = "two.sided")
+# 6. 计算δδCT: 每一个2^-δCT / mean 2^-δCT
+control$AIM2 <- control$AIM2/mean_delta_CT
+exper$AIM2 <- exper$AIM2/mean_delta_CT
 
+# 7. 整理成最后的data并计算SE
+data_final <- data.frame('value' = c(control$AIM2, exper$AIM2),
+                         'group' = rep(c('gControl', 'gSMAD4'), each = 5))
 
-p1 <- ggplot(sdata[[1]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[1]]$value[1] + se1[[1]], sdata[[1]]$value[2]+se2[[1]]), 
-                ymin = c(sdata[[1]]$value[1] - se1[[1]], sdata[[1]]$value[2]-se2[[1]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[1]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中CXCL10的相对表达量", 
-       x = "CXCL10", y = "Relative RNA Level", fill = "CXCL10") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("CXCL10.png",p1)
-
-
+ggbarplot(data_final, x = "group", y = "value", 
+          add = "mean_se", width = 0.5,
+          color = "group", fill = "group", palette = "npg",
+          position = position_dodge(0.1)) +
+  scale_y_continuous(breaks = seq(0, 10, 1)) +
+  stat_compare_means(method = "t.test", label.x = 0.6, label.y = 8, size = 6) +
+  labs(title = '18S as internal control') +
+  theme(legend.position = "right", 
+        plot.title = element_text(hjust = 0.5, size = 20))
   
-p2 <- ggplot(sdata[[2]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[2]]$value[1] + se1[[2]], sdata[[2]]$value[2]+se2[[2]]), 
-                ymin = c(sdata[[2]]$value[1] - se1[[2]], sdata[[2]]$value[2]-se2[[2]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[2]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中RGN的相对表达量", 
-       x = "RGN", y = "Relative RNA Level", fill = "RGN") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("RGN.png", p2)
-
-p3 <- ggplot(sdata[[3]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[3]]$value[1] + se1[[3]], sdata[[3]]$value[2]+se2[[3]]), 
-                ymin = c(sdata[[3]]$value[1] - se1[[3]], sdata[[3]]$value[2]-se2[[3]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[3]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中Calr的相对表达量", 
-       x = "Calr", y = "Relative RNA Level", fill = "Calr") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("Calr.png", p3)
-
-p4 <- ggplot(sdata[[4]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[4]]$value[1] + se1[[4]], sdata[[4]]$value[2]+se2[[4]]), 
-                ymin = c(sdata[[4]]$value[1] - se1[[4]], sdata[[4]]$value[2]-se2[[4]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[4]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中PLAU的相对表达量", 
-       x = "PLAU", y = "Relative RNA Level", fill = "PLAU") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("PLAU.png", p4)
-
-p5 <- ggplot(sdata[[5]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[5]]$value[1] + se1[[5]], sdata[[5]]$value[2]+se2[[5]]), 
-                ymin = c(sdata[[5]]$value[1] - se1[[5]], sdata[[5]]$value[2]-se2[[5]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[5]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中sRAGE的相对表达量", 
-       x = "sRAGE", y = "Relative RNA Level", fill = "sRAGE") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("sRAGE.png", p5)
-
-p6 <- ggplot(sdata[[6]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[6]]$value[1] + se1[[6]], sdata[[6]]$value[2] + se2[[6]]), 
-                ymin = c(sdata[[6]]$value[1] - se1[[6]], sdata[[6]]$value[2] - se2[[6]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[6]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中Growth.Hormone的相对表达量", 
-       x = "Growth.Hormone", y = "Relative RNA Level", fill = "Growth.Hormone") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("Growth.Hormone.png", p6)
-
-p7 <- ggplot(sdata[[7]], aes(x = Group, y = value)) +
-  geom_bar(aes(fill = Group), stat = "identity", width = 0.3) +
-  geom_errorbar(ymax = c(sdata[[7]]$value[1] + se1[[7]], sdata[[7]]$value[2] + se2[[7]]), 
-                ymin = c(sdata[[7]]$value[1] - se1[[7]], sdata[[7]]$value[2] - se2[[7]]), 
-                width = 0.15) +
-  geom_signif(comparisons = list(c("2M","14M")), 
-              annotations = paste0("p=", round(p_value[[7]],3)),
-              y_position = 4.8) +
-  labs(title = "小鼠肺组织中Agrin的相对表达量", 
-       x = "Agrin", y = "Relative RNA Level", fill = "Agrin") +
-  scale_y_continuous(limits=c(0,5))
-ggsave("Agrin.png", p7)
 

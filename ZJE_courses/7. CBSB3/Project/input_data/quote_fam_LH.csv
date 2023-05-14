@@ -1,0 +1,16 @@
+schemaID,payoff,author,familirarity,new,type,mean0,modvar,familirarity
+1,5,Abraham Lincoln,1,0,replaced,26.63633242,11.38220181,0.25
+2,3,Albert Einstein,1,0,replaced,22.07051934,7.872600552,0.64
+3,5,Antoine de Saint-Exupery,0,0,same,32.12823835,11.10398541,0.3
+4,2,Douglas Adams,0,0,same,25.11582926,7.862762739,0
+5,6,Homer,0.7826087,0,replaced,44.67238233,28.09880956,0
+6,4,Jane Austen,1,0,same,25.46191384,6.788016499,0.3076923
+7,3,Joanne K Rowling,0.5714286,0,same,20.89444053,8.903284272,1
+8,2,Karl Marx,0.6666667,0,replaced,20.42683811,5.747097602,0.2666667
+9,4,Mahatma Gandhi,1,0,replaced,24.65592209,9.592015878,0.8
+10,6,William Shakespeare,0.6428571,0,same,41.99294754,15.01778991,0
+11,2,Voltaire,0,1,new,29.95318311,32.15487999,0
+12,3,Leo Tolstoy,0,1,new,24.72729936,19.61827028,0.3333333
+13,6,Ernest Hemingway,0,1,new,37.18983177,23.37017713,0
+14,5,Benjamin Franklin,0.75,1,new,28.69400283,24.29290571,0
+15,4,Confucius,0,1,new,27.18205893,19.38407435,0
