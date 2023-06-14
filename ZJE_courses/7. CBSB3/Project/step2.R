@@ -83,13 +83,13 @@ Para_cor_final <- arrange(Para_cor_final, desc(Correlations))
 ## (Extra) 4. 可以选取其中几个r-value很大参数的可视化一下
 top_para <- Para_cor_final$Parameters[1]
 filename <- paste0('Step2/Correlation_', top_para, '.png')
-top_PM <- arrange(all_cors[[top_para]], desc(Correlations))$Parameters[1]
+top_PM <- arrange(all_cors[[top_para]], Correlations)$Parameters[1]
 
 ### X轴：top parameter
 X <- Param.df[, top_para]
 
 ### Y轴自定义
-Y <- model_summary_after[, 'OB_2']
+Y <- model_summary_before[, 'AS_1']
 
 
 ### Y轴：top PM
@@ -100,6 +100,7 @@ if(tail(str_split(top_PM, '_')[[1]], 1) == 'before'){
   Y <- model_summary_after[, str_replace(top_PM, '_after', '')]
 }
 
+
 data <- data.frame("X" = X,
                    "Y" = Y)
 colnames(data) <- c(top_para, top_PM)
@@ -108,7 +109,8 @@ colnames(data) <- c(top_para, top_PM)
 Cairo::CairoPNG(filename = filename, width = 7, height = 7, units = "in", dpi = 300) 
 ggscatter(data, x = top_para, y = top_PM, add = 'reg.line', size = 1,
           add.params = list(color = 'blue', fill = 'lightgray')) +
-  stat_cor(method = 'pearson', size = 5)
+  stat_cor(method = 'pearson', size = 5) +
+  labs(title = '(B)')
 dev.off() 
 
 
@@ -163,17 +165,17 @@ model_summary <- select(model_summary, all_of(match))
 
 
 ## 6. 调整PM的weight，让所有PM的error分布比较均匀
-# weight <- c(0.1, 1, 1, 0.5,
-#             1, 1, 1, 1,
-#             0.01, 0.01, 0.01, 0.01,
-#             1, 1, 1, 1,
-#             1, 1, 1)
-
-weight <- c(1, 1, 1, 1,
+weight <- c(0.1, 1, 1, 0.5,
             1, 1, 1, 1,
-            1, 1, 1, 1,
+            0.01, 0.01, 0.01, 0.01,
             1, 1, 1, 1,
             1, 1, 1)
+
+# weight <- c(1, 1, 1, 1,
+#             1, 1, 1, 1,
+#             1, 1, 1, 1,
+#             1, 1, 1, 1,
+#             1, 1, 1)
 
 PM_error <- data.frame()
 
@@ -189,6 +191,7 @@ calc_error <- function(n){
   }
   return(errors)
 }
+
 
 ### 对所有run得到的结果计算error 取最小的value
 errors <- c()
@@ -215,7 +218,7 @@ ggplot(PM_error_long, aes(x = factor(PMs, levels = colnames(PM_error)),
                           y = Error)) +
   geom_boxplot(outlier.shape = NA) +
   scale_y_continuous(limits = c(0, 100)) +
-  labs(x = 'PMs') +
+  labs(x = 'PMs', title = '(B)') +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 10),
         axis.title.x = element_text(size = 15),
         axis.title.y = element_text(size = 15))
@@ -227,8 +230,8 @@ min_model <- model_summary[min_index, ]
 min_exp <- PM_expe
 fix_data <- cbind(t(min_model), t(min_exp))
 colnames(fix_data) <- c('Model', 'Experiment')
-long_fix_data <- gather(data.frame(fix_data), 'Model', 'Experiment', key = 'Form', value = 'PMs')
-long_fix_data$Form <- factor(long_fix_data$Form, levels = c('Experiment', 'Model'))
+long_fix_data <- gather(data.frame(fix_data), 'Model', 'Experiment', key = 'Type', value = 'PMs')
+long_fix_data$Form <- factor(long_fix_data$Type, levels = c('Experiment', 'Model'))
 long_fix_data$PM <- rownames(fix_data)
 
 
@@ -236,7 +239,8 @@ Cairo::CairoPNG(filename = "Step2/difference.png", width = 7, height = 7, units 
 ggplot(long_fix_data, aes(x = Form, y = PMs)) +
   geom_point(aes(color = PM), size = 2) +
   geom_line(aes(group = PM), linewidth = 0.7) +
-  labs(title = 'Difference between experiment and model data') +
+  labs(title = 'Difference between experiment and model data',
+       y = 'Absolute difference') +
   theme(plot.title = element_text(hjust = 0.5))
 dev.off() 
 
@@ -284,8 +288,14 @@ data.10$Type <- 'Model'
 data_first <- rbind(data.4, data.9)
 data_last <- rbind(data.5, data.10)
   
+Cairo::CairoPNG(filename = "Step2/first_diff.png", width = 7, height = 7, units = "in", dpi = 300) 
 ggplot(data_first, aes(x = PMs, y = Values)) +
-  geom_boxplot(aes(fill = Type))
+  geom_boxplot(aes(fill = Type)) +
+  labs(title = '(A)')
+dev.off() 
 
+Cairo::CairoPNG(filename = "Step2/last_diff.png", width = 7, height = 7, units = "in", dpi = 300) 
 ggplot(data_last, aes(x = PMs, y = Values)) +
-  geom_boxplot(aes(fill = Type))
+  geom_boxplot(aes(fill = Type)) +
+  labs(title = '(B)')
+dev.off() 
