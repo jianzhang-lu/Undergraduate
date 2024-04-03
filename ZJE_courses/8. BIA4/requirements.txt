@@ -1,0 +1,13 @@
+numpy
+pandas
+matplotlib
+scikit-image
+scipy
+sklearn
+opencv-python
+tensorflow
+keras
+keras_tuner
+pickle
+seaborn
+openpyxl
